@@ -57,8 +57,8 @@ current_ptb = st.number_input(
     "Current Preterm Birth (%)",
     min_value=0.0,
     max_value=40.0,
-    value=0.0,
-    step=0.1
+    value=None,
+    placeholder="Enter value"
 )
 
 
@@ -119,8 +119,8 @@ pm25 = st.number_input(
     "Annual PM2.5 (µg/m³)",
     min_value=0.0,
     max_value=50.0,
-    value=0.0,
-    step=0.1
+    value=None,
+    placeholder="Enter value"
 )
 
 
@@ -128,8 +128,8 @@ cdd = st.number_input(
     "Cooling Degree Days (CDD); please enter 0-10000",
     min_value=0,
     max_value=10000,
-    value=0,
-    step=10
+    value=None,
+    placeholder="Enter value"
 )
 
 
@@ -137,8 +137,8 @@ hdd = st.number_input(
     "Heating Degree Days (HDD); please enter 0-15000",
     min_value=0,
     max_value=15000,
-    value=0,
-    step=10
+    value=None,
+    placeholder="Enter value"
 )
 
 
