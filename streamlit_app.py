@@ -380,40 +380,19 @@ if predict_button:
 # DISPLAY RESULTS
 # ============================================================
 
-col1, col2 = st.columns(2)
-
-
-with col1:
-
-    st.metric(
-        label="Predicted Next-Year PTB",
-        value=f"{predicted_ptb:.2f}%"
+if not all_complete:
+    st.caption(
+        "Complete all required fields to generate a prediction."
     )
 
+st.divider()
 
-with col2:
-
-    st.metric(
-        label="Maternal Health Risk Index",
-        value=f"{risk_index} / 100"
-    )
+st.subheader("Prediction Results")
 
 
-# Only show interpretation after a valid prediction
-if predict_button and all_complete:
-
-    st.write(
-        f"""
-        A risk index of **{risk_index}** indicates that the
-        predicted next-year preterm birth percentage is higher
-        than approximately **{risk_index}%** of Illinois
-        county-year preterm birth percentages in the historical
-        reference distribution.
-        """
-    )
-
-elif not all_complete:
-
+# Default results when inputs are incomplete
+predicted_ptb = 0.0
+risk_index = 0
 
 
 # ============================================================
