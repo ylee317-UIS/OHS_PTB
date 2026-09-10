@@ -781,7 +781,7 @@ with col1:
 
 
     st.metric(
-        label="Next-Year Preterm Birth %",
+        label="County's Next-Year Preterm Birth %",
         value=ptb_display
     )
 
@@ -804,7 +804,7 @@ with col2:
 
 
     st.metric(
-        label="Next-Year Preterm Birth Percentile^",
+        label="County's Next-Year Preterm Birth Percentile^",
         value=percentile_display
     )
 
