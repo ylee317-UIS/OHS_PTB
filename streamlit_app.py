@@ -114,7 +114,7 @@ st.markdown(
 )
 
 st.caption(
-    "This is a county-level research tool and is not used to estimate individual pregnancy risk."
+    "County-level research tool; not intended for individual pregnancy risk assessment."
 )
 
 
