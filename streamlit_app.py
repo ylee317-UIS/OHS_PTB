@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+import html
 
 
 # ============================================================
@@ -84,14 +85,29 @@ st.markdown(
 
 @st.cache_resource
 def load_model():
-    bundle = joblib.load("ptb_rf.joblib")
-    return bundle["model"], bundle["features"]
+
+    bundle = joblib.load(
+        "ptb_rf.joblib"
+    )
+
+    return (
+        bundle["model"],
+        bundle["features"]
+    )
 
 
 @st.cache_data
 def load_reference():
-    ref = pd.read_csv("ptb_reference.csv")
-    return ref["PTB"].dropna().to_numpy()
+
+    ref = pd.read_csv(
+        "ptb_reference.csv"
+    )
+
+    return (
+        ref["PTB"]
+        .dropna()
+        .to_numpy()
+    )
 
 
 model, features = load_model()
@@ -100,10 +116,6 @@ reference = load_reference()
 
 # ============================================================
 # CUSTOM NUMERIC INPUT
-# Allows:
-# 1. Blank initial value
-# 2. Direct keyboard entry
-# 3. +/- buttons from blank state
 # ============================================================
 
 def adjust_numeric_value(
@@ -114,43 +126,89 @@ def adjust_numeric_value(
     decimals,
     direction
 ):
-    raw = st.session_state.get(text_key, "")
+
+    raw = st.session_state.get(
+        text_key,
+        ""
+    )
 
     if raw is None:
         raw = ""
 
-    raw = str(raw).strip().replace(",", "")
+    raw = (
+        str(raw)
+        .strip()
+        .replace(",", "")
+    )
+
 
     try:
-        current_value = float(raw) if raw != "" else None
+
+        current_value = (
+            float(raw)
+            if raw != ""
+            else None
+        )
+
     except ValueError:
+
         current_value = None
 
-    # If currently blank:
-    # + starts at min + step
-    # - starts at min
+
+    # --------------------------------------------------------
+    # EMPTY FIELD
+    # --------------------------------------------------------
+
     if current_value is None:
 
         if direction > 0:
-            new_value = min_value + step
+
+            new_value = (
+                min_value + step
+            )
+
         else:
+
             new_value = min_value
+
+
+    # --------------------------------------------------------
+    # EXISTING VALUE
+    # --------------------------------------------------------
 
     else:
 
-        new_value = current_value + (direction * step)
+        new_value = (
+            current_value +
+            direction * step
+        )
 
-    # Keep within allowed range
+
+    # --------------------------------------------------------
+    # KEEP WITHIN RANGE
+    # --------------------------------------------------------
+
     new_value = max(
         min_value,
-        min(max_value, new_value)
+        min(
+            max_value,
+            new_value
+        )
     )
 
-    # Format displayed value
+
+    # --------------------------------------------------------
+    # FORMAT
+    # --------------------------------------------------------
+
     if decimals == 0:
 
         st.session_state[text_key] = str(
-            int(round(new_value))
+            int(
+                round(
+                    new_value
+                )
+            )
         )
 
     else:
@@ -168,33 +226,42 @@ def numeric_input(
     step,
     decimals=1
 ):
+
     text_key = f"{key}_text"
 
-    # Initial blank value
+
     if text_key not in st.session_state:
+
         st.session_state[text_key] = ""
 
-    # Input label
+
+    # Escape < and > in labels
+    safe_label = html.escape(
+        label
+    )
+
+
     st.markdown(
         f"""
         <div style="
             font-size:20px;
             margin-bottom:5px;
         ">
-            {label}
+            {safe_label}
         </div>
         """,
         unsafe_allow_html=True
     )
 
-    # Minus | Input | Plus
+
     col_minus, col_input, col_plus = st.columns(
         [1, 8, 1],
         gap="small"
     )
 
+
     # --------------------------------------------------------
-    # MINUS BUTTON
+    # MINUS
     # --------------------------------------------------------
 
     with col_minus:
@@ -214,6 +281,7 @@ def numeric_input(
             )
         )
 
+
     # --------------------------------------------------------
     # TEXT INPUT
     # --------------------------------------------------------
@@ -227,8 +295,9 @@ def numeric_input(
             placeholder="Enter value"
         )
 
+
     # --------------------------------------------------------
-    # PLUS BUTTON
+    # PLUS
     # --------------------------------------------------------
 
     with col_plus:
@@ -248,12 +317,15 @@ def numeric_input(
             )
         )
 
+
     # --------------------------------------------------------
-    # VALIDATE INPUT
+    # VALIDATION
     # --------------------------------------------------------
 
     if raw_value is None:
+
         return None
+
 
     cleaned_value = (
         str(raw_value)
@@ -261,13 +333,17 @@ def numeric_input(
         .replace(",", "")
     )
 
-    # Still blank
+
     if cleaned_value == "":
+
         return None
 
-    # Must be numeric
+
     try:
-        value = float(cleaned_value)
+
+        value = float(
+            cleaned_value
+        )
 
     except ValueError:
 
@@ -277,8 +353,12 @@ def numeric_input(
 
         return None
 
-    # Must fall inside requested range
-    if value < min_value or value > max_value:
+
+    if (
+        value < min_value
+        or
+        value > max_value
+    ):
 
         st.error(
             f"{label}: value must be between "
@@ -287,7 +367,11 @@ def numeric_input(
 
         return None
 
-    # Integer-only fields
+
+    # --------------------------------------------------------
+    # INTEGER-ONLY FIELD
+    # --------------------------------------------------------
+
     if decimals == 0:
 
         if not value.is_integer():
@@ -298,7 +382,10 @@ def numeric_input(
 
             return None
 
-        return int(value)
+        return int(
+            value
+        )
+
 
     return value
 
@@ -307,7 +394,9 @@ def numeric_input(
 # TITLE
 # ============================================================
 
-st.title("Illinois Preterm Birth Risk Index")
+st.title(
+    "Illinois Preterm Birth Risk Index"
+)
 
 
 st.markdown(
@@ -328,7 +417,7 @@ st.markdown(
 st.markdown(
     """
     <div style="
-        color:#FF0000;
+        color:#d16a8a;
         font-size:18px;
         margin-top:8px;
         margin-bottom:18px;
@@ -349,9 +438,9 @@ st.subheader(
 )
 
 
-# ------------------------------------------------------------
-# Current PTB
-# ------------------------------------------------------------
+# ============================================================
+# 1. CURRENT PTB
+# ============================================================
 
 current_ptb = numeric_input(
     "Current Preterm Birth (%); please enter 0-100",
@@ -363,9 +452,9 @@ current_ptb = numeric_input(
 )
 
 
-# ------------------------------------------------------------
-# Maternal age <20
-# ------------------------------------------------------------
+# ============================================================
+# 2. MATERNAL AGE <20
+# ============================================================
 
 age_lt20 = numeric_input(
     "Maternal Age <20 (%); please enter 0-100",
@@ -377,9 +466,9 @@ age_lt20 = numeric_input(
 )
 
 
-# ------------------------------------------------------------
-# Maternal age 40+
-# ------------------------------------------------------------
+# ============================================================
+# 3. MATERNAL AGE 40+
+# ============================================================
 
 age_40plus = numeric_input(
     "Maternal Age 40+ (%); please enter 0-100",
@@ -391,9 +480,9 @@ age_40plus = numeric_input(
 )
 
 
-# ------------------------------------------------------------
-# Black mothers
-# ------------------------------------------------------------
+# ============================================================
+# 4. BLACK MOTHERS
+# ============================================================
 
 black_mother = numeric_input(
     "Black Mothers (%); please enter 0-100",
@@ -405,9 +494,9 @@ black_mother = numeric_input(
 )
 
 
-# ------------------------------------------------------------
-# Unmarried mothers
-# ------------------------------------------------------------
+# ============================================================
+# 5. UNMARRIED MOTHERS
+# ============================================================
 
 unmarried = numeric_input(
     "Unmarried Mothers (%); please enter 0-100",
@@ -419,9 +508,9 @@ unmarried = numeric_input(
 )
 
 
-# ------------------------------------------------------------
-# SVI
-# ------------------------------------------------------------
+# ============================================================
+# 6. SVI
+# ============================================================
 
 svi = numeric_input(
     "Social Vulnerability Index (SVI); please enter 0-1",
@@ -433,9 +522,9 @@ svi = numeric_input(
 )
 
 
-# ------------------------------------------------------------
-# Multiple gestation
-# ------------------------------------------------------------
+# ============================================================
+# 7. MULTIPLE GESTATION
+# ============================================================
 
 multiple_gestation = numeric_input(
     "Multiple Gestation (%); please enter 0-100",
@@ -447,9 +536,9 @@ multiple_gestation = numeric_input(
 )
 
 
-# ------------------------------------------------------------
-# Low birth weight
-# ------------------------------------------------------------
+# ============================================================
+# 8. LOW BIRTH WEIGHT
+# ============================================================
 
 low_birth_weight = numeric_input(
     "Low Birth Weight (%); please enter 0-100",
@@ -461,9 +550,9 @@ low_birth_weight = numeric_input(
 )
 
 
-# ------------------------------------------------------------
-# Caesarian delivery
-# ------------------------------------------------------------
+# ============================================================
+# 9. CAESARIAN DELIVERY
+# ============================================================
 
 caesarian = numeric_input(
     "Caesarian Delivery (%); please enter 0-100",
@@ -475,38 +564,45 @@ caesarian = numeric_input(
 )
 
 
-# ------------------------------------------------------------
-# RUCC
-# ------------------------------------------------------------
+# ============================================================
+# 10. RUCC
+# ============================================================
 
 rucc = st.selectbox(
     "Rural-Urban Continuum Code (RUCC)",
     options=[
-        1, 2, 3, 4, 5, 6, 7, 8, 9
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
     ],
     index=None,
     placeholder="Select RUCC"
 )
 
 
-# ------------------------------------------------------------
-# HPSA
-# ------------------------------------------------------------
+# ============================================================
+# 11. PM2.5
+# ============================================================
 
-hpsa_label = st.selectbox(
-    "HPSA primary care provider shortage",
-    options=[
-        "No",
-        "Yes"
-    ],
-    index=None,
-    placeholder="Select No or Yes"
+pm25 = numeric_input(
+    "Annual PM2.5 (µg/m³); please enter 0-50",
+    key="pm25",
+    min_value=0.0,
+    max_value=50.0,
+    step=0.1,
+    decimals=1
 )
 
 
-# ------------------------------------------------------------
-# CDD
-# ------------------------------------------------------------
+# ============================================================
+# 12. CDD
+# ============================================================
 
 cdd = numeric_input(
     "Cooling Degree Days (CDD); please enter 0-10000",
@@ -533,10 +629,8 @@ required_inputs = [
     low_birth_weight,
     caesarian,
     rucc,
-    hpsa_label,
     pm25,
-    cdd,
-    hdd
+    cdd
 ]
 
 
@@ -550,8 +644,8 @@ all_complete = all(
 # DEFAULT RESULTS
 # ============================================================
 
-predicted_ptb = 0.0
-risk_index = 0
+predicted_ptb = None
+ptb_percentile = None
 
 
 # ============================================================
@@ -559,6 +653,7 @@ risk_index = 0
 # ============================================================
 
 st.write("")
+
 
 predict_button = st.button(
     "Predict Next-Year Risk",
@@ -573,16 +668,6 @@ predict_button = st.button(
 # ============================================================
 
 if predict_button and all_complete:
-
-    # --------------------------------------------------------
-    # Convert HPSA to model value
-    # --------------------------------------------------------
-
-    hpsa = (
-        1
-        if hpsa_label == "Yes"
-        else 0
-    )
 
 
     # --------------------------------------------------------
@@ -600,17 +685,15 @@ if predict_button and all_complete:
             "RUCC": rucc,
             "PM25": pm25,
             "CDD": cdd,
-            "HDD": hdd,
             "Caesarian": caesarian,
             "Low_Birth_Weight": low_birth_weight,
-            "Unmarried": unmarried,
-            "HPSA_PrimaryCare": hpsa
+            "Unmarried": unmarried
         }]
     )
 
 
     # --------------------------------------------------------
-    # Ensure exact predictor order used during training
+    # EXACT SAME FEATURE ORDER AS TRAINING MODEL
     # --------------------------------------------------------
 
     input_data = input_data[
@@ -630,10 +713,10 @@ if predict_button and all_complete:
 
 
     # --------------------------------------------------------
-    # MATERNAL HEALTH RISK INDEX
+    # HISTORICAL PTB PERCENTILE
     # --------------------------------------------------------
 
-    risk_index = int(
+    ptb_percentile = int(
         round(
             100 *
             np.mean(
@@ -643,11 +726,11 @@ if predict_button and all_complete:
     )
 
 
-    risk_index = max(
+    ptb_percentile = max(
         0,
         min(
             100,
-            risk_index
+            ptb_percentile
         )
     )
 
@@ -669,49 +752,78 @@ if not all_complete:
 
 st.divider()
 
+
 st.subheader(
     "Prediction Results"
 )
 
 
-col1, col2 = st.columns(2)
+col1, col2 = st.columns(
+    2
+)
+
+
+# ============================================================
+# DISPLAY PREDICTED PTB
+# ============================================================
 
 with col1:
 
-    if predict_button and all_complete:
-        ptb_display = f"{predicted_ptb:.2f}%"
+    if predicted_ptb is not None:
+
+        ptb_display = (
+            f"{predicted_ptb:.2f}%"
+        )
+
     else:
+
         ptb_display = "—"
 
+
     st.metric(
-        label="Next-Year Preterm Birth %",
+        label="Predicted Next-Year PTB",
         value=ptb_display
     )
 
 
+# ============================================================
+# DISPLAY PTB PERCENTILE
+# ============================================================
+
 with col2:
 
-    if predict_button and all_complete:
-        percentile_display = f"{risk_index} / 100"
+    if ptb_percentile is not None:
+
+        percentile_display = (
+            f"{ptb_percentile} / 100"
+        )
+
     else:
+
         percentile_display = "—"
 
+
     st.metric(
-        label="Next-Year Preterm Birth Percentile^",
+        label="Predicted Preterm Birth Percentile",
         value=percentile_display
     )
+
 
 # ============================================================
 # RESULT INTERPRETATION
 # ============================================================
 
-if predict_button and all_complete:
+if (
+    predicted_ptb is not None
+    and
+    ptb_percentile is not None
+):
 
     st.write(
         f"""
-        ^A percentile of **{risk_index}** indicates that the
+        A percentile of **{ptb_percentile}** indicates that the
         predicted next-year preterm birth percentage is higher
-        than approximately **{risk_index}%** of Illinois
+        than approximately **{ptb_percentile}%** of Illinois
         county-year preterm birth percentages in the historical
         reference distribution.
         """
@@ -734,14 +846,20 @@ with st.expander(
         This prediction model is a Random Forest regression model
         developed using annual Illinois county-level data.
         Predictors from year t are used to forecast the preterm
-        birth percentage in year t+1. The 0–100 Maternal Health Risk Index represents the
-        percentile of the predicted preterm birth percentage
-        relative to the historical Illinois county-year preterm
-        birth distribution.
+        birth percentage in year t+1.
 
-        This tool is intended for public health planning and
-        research and should not be interpreted as an
-        individual-level clinical risk assessment.
+        The Predicted Preterm Birth Percentile represents the
+        percentile of the predicted next-year preterm birth
+        percentage relative to the historical Illinois county-year
+        preterm birth distribution.
+
+        Changes in individual input values should not be interpreted
+        as causal changes in preterm birth risk. Relationships learned
+        by the Random Forest model may be nonlinear or non-monotonic.
+
+        This tool is intended for public health planning and research
+        and should not be interpreted as an individual-level clinical
+        risk assessment.
 
         The model and tool were developed by Prafulla Caringula
         of the Woodford County Health Department and Dr. Yu-Sheng Lee
