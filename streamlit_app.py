@@ -9,8 +9,7 @@ import joblib
 # ============================================================
 
 st.set_page_config(
-    page_title="Illinois Preterm Birth Risk Index" 
-               "by Prafulla Caringula and Dr. Yu-Sheng Lee",
+    page_title="Illinois Preterm Birth Risk Index by Prafulla Caringula and Dr. Yu-Sheng Lee",
     page_icon="📊",
     layout="centered"
 )
