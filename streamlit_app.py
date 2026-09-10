@@ -725,7 +725,7 @@ with col2:
         percentile_display = "—"
 
     st.metric(
-        label="Predicted Preterm Birth Percentile",
+        label="Predicted Preterm Birth Percentile^",
         value=percentile_display
     )
 
@@ -737,7 +737,7 @@ if predict_button and all_complete:
 
     st.write(
         f"""
-        A percentile of **{risk_index}** indicates that the
+        ^A percentile of **{risk_index}** indicates that the
         predicted next-year preterm birth percentage is higher
         than approximately **{risk_index}%** of Illinois
         county-year preterm birth percentages in the historical
