@@ -114,8 +114,7 @@ st.caption(
 # INPUTS
 # ============================================================
 
-st.subheader("Enter your County's Indicators")
-st.caption("Complete all required fields to generate a prediction.")
+st.subheader("Complete your county's indicator to generate a prediction")
 
 current_ptb = st.number_input(
     "Current Preterm Birth (%); please enter 0-100",
