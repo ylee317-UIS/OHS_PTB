@@ -417,7 +417,7 @@ st.markdown(
 st.markdown(
     """
     <div style="
-        color:#d16a8a;
+        color:#E20000;
         font-size:18px;
         margin-top:8px;
         margin-bottom:18px;
@@ -781,7 +781,7 @@ with col1:
 
 
     st.metric(
-        label="Predicted Next-Year PTB",
+        label="Next-Year Preterm Birth %",
         value=ptb_display
     )
 
@@ -804,7 +804,7 @@ with col2:
 
 
     st.metric(
-        label="Predicted Preterm Birth Percentile",
+        label="Next-Year Preterm Birth Percentile^",
         value=percentile_display
     )
 
@@ -821,7 +821,7 @@ if (
 
     st.write(
         f"""
-        A percentile of **{ptb_percentile}** indicates that the
+        ^A percentile of **{ptb_percentile}** indicates that the
         predicted next-year preterm birth percentage is higher
         than approximately **{ptb_percentile}%** of Illinois
         county-year preterm birth percentages in the historical
@@ -843,29 +843,17 @@ with st.expander(
 
     st.write(
         """
-        This prediction model is a Random Forest regression model
-        developed using annual Illinois county-level data.
-        Predictors from year t are used to forecast the preterm
-        birth percentage in year t+1.
-
-        The Predicted Preterm Birth Percentile represents the
-        percentile of the predicted next-year preterm birth
-        percentage relative to the historical Illinois county-year
+        This prediction model is a Random Forest regression model developed using annual Illinois county-level data.
+        Predictors from year t are used to forecast the preterm birth percentage in year t+1. The Predicted Preterm Birth Percentile represents the
+        percentile of the predicted next-year preterm birth percentage relative to the historical Illinois county-year
         preterm birth distribution.
-
-        Changes in individual input values should not be interpreted
-        as causal changes in preterm birth risk. Relationships learned
-        by the Random Forest model may be nonlinear or non-monotonic.
 
         This tool is intended for public health planning and research
         and should not be interpreted as an individual-level clinical
         risk assessment.
 
-        The model and tool were developed by Prafulla Caringula
-        of the Woodford County Health Department and Dr. Yu-Sheng Lee
-        of the University of Illinois Springfield.
+        The model and tool were developed by Prafulla Caringula of the Woodford County Health Department and Dr. Yu-Sheng Lee of the University of Illinois Springfield.
 
-        If you have questions about this tool, please contact:
-        Dr. Yu-Sheng Lee | ylee317@uis.edu | 1-217-206-7874.
+        If you have questions about this tool, please contact: Dr. Yu-Sheng Lee | ylee317@uis.edu | 1-217-206-7874.
         """
     )
