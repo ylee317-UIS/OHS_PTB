@@ -418,7 +418,7 @@ st.markdown(
     """
     <div style="
         color:#E20000;
-        font-size:18px;
+        font-size:20px;
         margin-top:8px;
         margin-bottom:18px;
     ">
