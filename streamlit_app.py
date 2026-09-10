@@ -123,7 +123,7 @@ st.caption(
 # ============================================================
 
 st.subheader(
-    "Complete your county's indicators to generate a prediction"
+    "Enter your county's indicators to generate a prediction"
 )
 
 
@@ -386,7 +386,7 @@ if predict_button and all_complete:
 if not all_complete:
 
     st.caption(
-        "Complete all required fields to generate a prediction."
+        "You need to complete all required fields to generate a prediction."
     )
 
 
