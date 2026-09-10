@@ -115,7 +115,7 @@ st.caption(
 # ============================================================
 
 st.subheader("Enter your County's Indicators")
-
+st.caption("Complete all required fields to generate a prediction.")
 
 current_ptb = st.number_input(
     "Current Preterm Birth (%); please enter 0-100",
@@ -415,9 +415,6 @@ if predict_button and all_complete:
 
 elif not all_complete:
 
-    st.caption(
-        "Complete all required fields to generate a prediction."
-    )
 
 
 # ============================================================
