@@ -126,17 +126,6 @@ current_ptb = st.number_input(
     placeholder="Enter value"
 )
 
-
-svi = st.number_input(
-    "Social Vulnerability Index (SVI); please enter 0-1",
-    min_value=0.0,
-    max_value=1.0,
-    value=None,
-    step=0.01,
-    placeholder="Enter value"
-)
-
-
 age_lt20 = st.number_input(
     "Maternal Age <20 (%); please enter 0-100",
     min_value=0.0,
@@ -167,8 +156,48 @@ black_mother = st.number_input(
 )
 
 
+unmarried = st.number_input(
+    "Unmarried Mothers (%); please enter 0-100",
+    min_value=0.0,
+    max_value=100.0,
+    value=None,
+    step=0.1,
+    placeholder="Enter value"
+)
+
+
+svi = st.number_input(
+    "Social Vulnerability Index (SVI); please enter 0-1",
+    min_value=0.0,
+    max_value=1.0,
+    value=None,
+    step=0.01,
+    placeholder="Enter value"
+)
+
+
 multiple_gestation = st.number_input(
     "Multiple Gestation (%); please enter 0-100",
+    min_value=0.0,
+    max_value=100.0,
+    value=None,
+    step=0.1,
+    placeholder="Enter value"
+)
+
+
+low_birth_weight = st.number_input(
+    "Low Birth Weight (%); please enter 0-100",
+    min_value=0.0,
+    max_value=100.0,
+    value=None,
+    step=0.1,
+    placeholder="Enter value"
+)
+
+
+caesarian = st.number_input(
+    "Caesarian Delivery (%); please enter 0-100",
     min_value=0.0,
     max_value=100.0,
     value=None,
@@ -182,6 +211,14 @@ rucc = st.selectbox(
     options=[1, 2, 3, 4, 5, 6, 7, 8, 9],
     index=None,
     placeholder="Select RUCC"
+)
+
+
+hpsa_label = st.selectbox(
+    "HPSA primary care provider shortage",
+    options=["No", "Yes"],
+    index=None,
+    placeholder="Select No or Yes"
 )
 
 
@@ -212,44 +249,6 @@ hdd = st.number_input(
     value=None,
     step=1,
     placeholder="Enter value"
-)
-
-
-caesarian = st.number_input(
-    "Caesarian Delivery (%); please enter 0-100",
-    min_value=0.0,
-    max_value=100.0,
-    value=None,
-    step=0.1,
-    placeholder="Enter value"
-)
-
-
-low_birth_weight = st.number_input(
-    "Low Birth Weight (%); please enter 0-100",
-    min_value=0.0,
-    max_value=100.0,
-    value=None,
-    step=0.1,
-    placeholder="Enter value"
-)
-
-
-unmarried = st.number_input(
-    "Unmarried Mothers (%); please enter 0-100",
-    min_value=0.0,
-    max_value=100.0,
-    value=None,
-    step=0.1,
-    placeholder="Enter value"
-)
-
-
-hpsa_label = st.selectbox(
-    "HPSA primary care provider shortage",
-    options=["No", "Yes"],
-    index=None,
-    placeholder="Select No or Yes"
 )
 
 
