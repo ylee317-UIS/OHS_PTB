@@ -106,20 +106,15 @@ st.caption(
 )
 
 st.caption(
-    "County-level research tool. This model does not estimate individual pregnancy risk."
+    "This is a county-level research tool and is not used to estimate individual pregnancy risk."
 )
 
-st.write(
-    """
-    Enter your county's current information.
-    """
-)
 
 # ============================================================
 # INPUTS
 # ============================================================
 
-st.subheader("County Indicators")
+st.subheader("Enter your County's Indicators")
 
 
 current_ptb = st.number_input(
