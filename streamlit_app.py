@@ -47,24 +47,6 @@ reference = load_reference()
 
 
 # ============================================================
-# TITLE
-# ============================================================
-
-st.write(
-    """
-    Enter current county-level maternal, social, healthcare-access,
-    and environmental indicators to estimate the next-year
-    preterm birth percentage.
-    """
-)
-
-st.caption(
-    "County-level research tool. This model does not estimate "
-    "individual pregnancy risk."
-)
-
-
-# ============================================================
 # INPUTS
 # ============================================================
 
