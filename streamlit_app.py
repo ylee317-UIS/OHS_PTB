@@ -310,6 +310,6 @@ with st.expander("About the model"):
         research and should not be interpreted as an
         individual-level clinical risk assessment.
         
-        "Developed by Dr. Yu-Sheng Lee | University of Illinois Springfield and Prafulla Caringula | Woodford County Health Department"
+        "This tool is developed by Dr. Yu-Sheng Lee | University of Illinois Springfield and Prafulla Caringula | Woodford County Health Department"
         """
     )
