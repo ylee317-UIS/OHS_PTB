@@ -458,6 +458,6 @@ with st.expander("About the model"):
         of the Woodford County Health Department and Dr. Yu-Sheng Lee
         of the University of Illinois Springfield.
 
-        If you have questions about this research, please contact: Dr. Yu-Sheng Lee | ylee317@uis.edu | 1-217-206-7874.
+        If you have questions about this tool, please contact: Dr. Yu-Sheng Lee | ylee317@uis.edu | 1-217-206-7874.
         """
     )
