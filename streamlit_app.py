@@ -14,10 +14,11 @@ st.set_page_config(
     layout="centered"
 )
 
+st.title("Illinois Preterm Birth Risk Index")
+
 st.caption(
     "Developed by Prafulla Caringula and Dr. Yu-Sheng Lee | University of Illinois Springfield"
 )
-
 
 # ============================================================
 # LOAD MODEL
