@@ -386,7 +386,7 @@ if predict_button and all_complete:
 if not all_complete:
 
     st.caption(
-        "You need to complete all required fields to generate a prediction."
+        "Please complete all required fields to generate a prediction."
     )
 
 
