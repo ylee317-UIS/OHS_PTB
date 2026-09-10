@@ -63,47 +63,47 @@ current_ptb = st.number_input(
 
 
 svi = st.number_input(
-    "Social Vulnerability Index (SVI)",
+    "Social Vulnerability Index (SVI); please enter 0-1",
     min_value=0.0,
     max_value=1.0,
-    value=0.00,
-    step=0.01
+    value=None,
+    placeholder="Enter value"
 )
 
 
 age_lt20 = st.number_input(
-    "Maternal Age <20 (%)",
+    "Maternal Age <20 (%); please enter 0-100",
     min_value=0.0,
     max_value=100.0,
-    value=0.0,
-    step=0.1
+    value=None,
+    placeholder="Enter value"
 )
 
 
 age_40plus = st.number_input(
-    "Maternal Age 40+ (%)",
+    "Maternal Age 40+ (%); please enter 0-100",
     min_value=0.0,
     max_value=100.0,
-    value=0.0,
-    step=0.1
+    value=None,
+    placeholder="Enter value"
 )
 
 
 black_mother = st.number_input(
-    "Black Mothers (%)",
+    "Black Mothers (%); please enter 0-100",
     min_value=0.0,
     max_value=100.0,
-    value=0.0,
-    step=0.1
+    value=None,
+    placeholder="Enter value"
 )
 
 
 multiple_gestation = st.number_input(
-    "Multiple Gestation (%)",
+    "Multiple Gestation (%); please enter 0-100",
     min_value=0.0,
     max_value=100.0,
-    value=0.0,
-    step=0.1
+    value=None,
+    placeholder="Enter value"
 )
 
 
@@ -116,7 +116,7 @@ rucc = st.selectbox(
 
 
 pm25 = st.number_input(
-    "Annual PM2.5 (µg/m³)",
+    "Annual PM2.5 (µg/m³); please enter 0-50",
     min_value=0.0,
     max_value=50.0,
     value=None,
@@ -143,29 +143,29 @@ hdd = st.number_input(
 
 
 caesarian = st.number_input(
-    "Caesarian Delivery (%)",
+    "Caesarian Delivery (%); please enter 0-100",
     min_value=0.0,
     max_value=100.0,
-    value=0.0,
-    step=0.1
+    value=None,
+    placeholder="Enter value"
 )
 
 
 low_birth_weight = st.number_input(
-    "Low Birth Weight (%)",
+    "Low Birth Weight (%); please enter 0-100",
     min_value=0.0,
     max_value=100.0,
-    value=0.0,
-    step=0.1
+    value=None,
+    placeholder="Enter value"
 )
 
 
 unmarried = st.number_input(
-    "Unmarried Mothers (%)",
+    "Unmarried Mothers (%); please enter 0-100",
     min_value=0.0,
     max_value=100.0,
-    value=0.0,
-    step=0.1
+    value=None,
+    placeholder="Enter value"
 )
 
 
