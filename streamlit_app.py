@@ -8,16 +8,22 @@ import joblib
 # PAGE SETTINGS
 # ============================================================
 
-st.set_page_config(
-    page_title="Illinois Preterm Birth Risk Index",
-    page_icon="📊",
-    layout="centered"
-)
-
 st.title("Illinois Preterm Birth Risk Index")
 
 st.caption(
     "Developed by Prafulla Caringula and Dr. Yu-Sheng Lee | University of Illinois Springfield"
+)
+
+st.write(
+    """
+    Enter current county-level maternal, social, healthcare-access,
+    and environmental indicators to estimate the next-year
+    preterm birth percentage.
+    """
+)
+
+st.caption(
+    "County-level research tool. This model does not estimate individual pregnancy risk."
 )
 
 # ============================================================
