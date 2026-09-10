@@ -108,7 +108,7 @@ multiple_gestation = st.number_input(
 
 
 rucc = st.selectbox(
-    "Rural-Urban Continuum Code (RUCC); please enter 1-9",
+    "Rural-Urban Continuum Code (RUCC)",
     options=[1, 2, 3, 4, 5, 6, 7, 8, 9],
     index=None,
     placeholder="Select RUCC"
