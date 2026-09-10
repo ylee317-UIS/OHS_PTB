@@ -14,6 +14,66 @@ st.set_page_config(
     layout="centered"
 )
 
+st.markdown(
+    """
+    <style>
+
+       html, body, [class*="css"] {
+        font-size: 20px;
+    }
+
+    h1 {
+        font-size: 46px !important;
+    }
+
+    h2 {
+        font-size: 34px !important;
+    }
+
+    h3 {
+        font-size: 28px !important;
+    }
+
+       p {
+        font-size: 20px !important;
+    }
+
+    label {
+        font-size: 20px !important;
+    }
+   
+    input {
+        font-size: 20px !important;
+    }
+
+    div[data-baseweb="select"] {
+        font-size: 20px !important;
+    }
+
+        .stButton button {
+        font-size: 22px !important;
+        font-weight: 600;
+    }
+
+    /* metric */
+    [data-testid="stMetricLabel"] {
+        font-size: 20px !important;
+    }
+
+    /* metric */
+    [data-testid="stMetricValue"] {
+        font-size: 36px !important;
+    }
+
+    /* caption */
+    [data-testid="stCaptionContainer"] {
+        font-size: 17px !important;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # ============================================================
 # LOAD MODEL
