@@ -113,8 +113,13 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.caption(
-    "County-level research tool; not intended for individual pregnancy risk assessment."
+st.markdown(
+    """
+    <div style="color:#d16a8a; font-size:16px; margin-top:8px; margin-bottom:18px;">
+        County-level research tool; not intended for individual pregnancy risk assessment.
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
 
