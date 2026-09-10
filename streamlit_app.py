@@ -8,23 +8,12 @@ import joblib
 # PAGE SETTINGS
 # ============================================================
 
-st.title("Illinois Preterm Birth Risk Index")
-
-st.caption(
-    "Developed by Prafulla Caringula and Dr. Yu-Sheng Lee"
+st.set_page_config(
+    page_title="Illinois Preterm Birth Risk Index",
+    page_icon="📊",
+    layout="centered"
 )
 
-st.write(
-    """
-    Enter your county's current maternal, social, healthcare-access,
-    and environmental indicators to estimate the next-year
-    preterm birth percentage.
-    """
-)
-
-st.caption(
-    "County-level research tool. This model does not estimate individual pregnancy risk."
-)
 
 # ============================================================
 # LOAD MODEL
@@ -47,6 +36,29 @@ reference = load_reference()
 
 
 # ============================================================
+# TITLE
+# ============================================================
+
+st.title("Illinois Preterm Birth Risk Index")
+
+st.caption(
+    "Developed by Prafulla Caringula and Dr. Yu-Sheng Lee"
+)
+
+st.write(
+    """
+    Enter your county's current maternal, social, healthcare-access,
+    and environmental indicators to estimate the next-year
+    preterm birth percentage.
+    """
+)
+
+st.caption(
+    "County-level research tool. This model does not estimate individual pregnancy risk."
+)
+
+
+# ============================================================
 # INPUTS
 # ============================================================
 
@@ -54,10 +66,11 @@ st.subheader("County Indicators")
 
 
 current_ptb = st.number_input(
-    "Current Preterm Birth (%)",
+    "Current Preterm Birth (%); please enter 0-100",
     min_value=0.0,
-    max_value=40.0,
+    max_value=100.0,
     value=None,
+    step=0.1,
     placeholder="Enter value"
 )
 
@@ -67,6 +80,7 @@ svi = st.number_input(
     min_value=0.0,
     max_value=1.0,
     value=None,
+    step=0.01,
     placeholder="Enter value"
 )
 
@@ -76,6 +90,7 @@ age_lt20 = st.number_input(
     min_value=0.0,
     max_value=100.0,
     value=None,
+    step=0.1,
     placeholder="Enter value"
 )
 
@@ -85,6 +100,7 @@ age_40plus = st.number_input(
     min_value=0.0,
     max_value=100.0,
     value=None,
+    step=0.1,
     placeholder="Enter value"
 )
 
@@ -94,6 +110,7 @@ black_mother = st.number_input(
     min_value=0.0,
     max_value=100.0,
     value=None,
+    step=0.1,
     placeholder="Enter value"
 )
 
@@ -103,6 +120,7 @@ multiple_gestation = st.number_input(
     min_value=0.0,
     max_value=100.0,
     value=None,
+    step=0.1,
     placeholder="Enter value"
 )
 
@@ -120,6 +138,7 @@ pm25 = st.number_input(
     min_value=0.0,
     max_value=50.0,
     value=None,
+    step=0.1,
     placeholder="Enter value"
 )
 
@@ -129,6 +148,7 @@ cdd = st.number_input(
     min_value=0,
     max_value=10000,
     value=None,
+    step=1,
     placeholder="Enter value"
 )
 
@@ -138,6 +158,7 @@ hdd = st.number_input(
     min_value=0,
     max_value=15000,
     value=None,
+    step=1,
     placeholder="Enter value"
 )
 
@@ -147,6 +168,7 @@ caesarian = st.number_input(
     min_value=0.0,
     max_value=100.0,
     value=None,
+    step=0.1,
     placeholder="Enter value"
 )
 
@@ -156,6 +178,7 @@ low_birth_weight = st.number_input(
     min_value=0.0,
     max_value=100.0,
     value=None,
+    step=0.1,
     placeholder="Enter value"
 )
 
@@ -165,114 +188,169 @@ unmarried = st.number_input(
     min_value=0.0,
     max_value=100.0,
     value=None,
+    step=0.1,
     placeholder="Enter value"
 )
 
 
 hpsa_label = st.selectbox(
     "HPSA primary care provider shortage",
-    options=[
-        "No",
-        "Yes"
-    ]
-)
-
-hpsa = 1 if hpsa_label == "Yes" else 0
-
-
-# ============================================================
-# CREATE MODEL INPUT
-# ============================================================
-
-input_data = pd.DataFrame(
-    [{
-        "PTB": current_ptb,
-        "SVI": svi,
-        "Age_lt20": age_lt20,
-        "Age_40plus": age_40plus,
-        "Black_Mother": black_mother,
-        "Multiple_Gestation": multiple_gestation,
-        "RUCC": rucc,
-        "PM25": pm25,
-        "CDD": cdd,
-        "HDD": hdd,
-        "Caesarian": caesarian,
-        "Low_Birth_Weight": low_birth_weight,
-        "Unmarried": unmarried,
-        "HPSA_PrimaryCare": hpsa
-    }]
+    options=["No", "Yes"],
+    index=None,
+    placeholder="Select No or Yes"
 )
 
 
-# Make absolutely sure the column order matches training
-input_data = input_data[features]
+# ============================================================
+# CHECK WHETHER ALL INPUTS ARE COMPLETE
+# ============================================================
+
+required_inputs = [
+    current_ptb,
+    svi,
+    age_lt20,
+    age_40plus,
+    black_mother,
+    multiple_gestation,
+    rucc,
+    pm25,
+    cdd,
+    hdd,
+    caesarian,
+    low_birth_weight,
+    unmarried,
+    hpsa_label
+]
+
+all_complete = all(
+    value is not None
+    for value in required_inputs
+)
 
 
 # ============================================================
-# PREDICTION
+# PREDICT BUTTON
 # ============================================================
 
 st.write("")
 
-if st.button(
+predict_button = st.button(
     "Predict Next-Year Risk",
     type="primary",
     use_container_width=True
-):
-
-    predicted_ptb = float(
-        model.predict(input_data)[0]
-    )
+)
 
 
-    # --------------------------------------------------------
-    # Convert predicted PTB to historical percentile
-    # --------------------------------------------------------
+# ============================================================
+# RESULTS
+# ============================================================
 
-    risk_index = int(
-        round(
-            100 *
-            np.mean(
-                reference <= predicted_ptb
+st.divider()
+
+st.subheader("Prediction Results")
+
+
+# Default results when inputs are incomplete
+predicted_ptb = 0.0
+risk_index = 0
+
+
+if predict_button:
+
+    if not all_complete:
+
+        st.warning(
+            "Please complete all required county indicators before generating a prediction."
+        )
+
+    else:
+
+        # Convert HPSA to model value
+        hpsa = 1 if hpsa_label == "Yes" else 0
+
+
+        # ----------------------------------------------------
+        # CREATE MODEL INPUT
+        # ----------------------------------------------------
+
+        input_data = pd.DataFrame(
+            [{
+                "PTB": current_ptb,
+                "SVI": svi,
+                "Age_lt20": age_lt20,
+                "Age_40plus": age_40plus,
+                "Black_Mother": black_mother,
+                "Multiple_Gestation": multiple_gestation,
+                "RUCC": rucc,
+                "PM25": pm25,
+                "CDD": cdd,
+                "HDD": hdd,
+                "Caesarian": caesarian,
+                "Low_Birth_Weight": low_birth_weight,
+                "Unmarried": unmarried,
+                "HPSA_PrimaryCare": hpsa
+            }]
+        )
+
+
+        # Ensure same predictor order used during training
+        input_data = input_data[features]
+
+
+        # ----------------------------------------------------
+        # RANDOM FOREST PREDICTION
+        # ----------------------------------------------------
+
+        predicted_ptb = float(
+            model.predict(input_data)[0]
+        )
+
+
+        # ----------------------------------------------------
+        # CONVERT PREDICTED PTB TO 0-100 RISK INDEX
+        # ----------------------------------------------------
+
+        risk_index = int(
+            round(
+                100 *
+                np.mean(
+                    reference <= predicted_ptb
+                )
             )
         )
-    )
 
 
-    # Keep strictly within 0-100
-    risk_index = max(
-        0,
-        min(100, risk_index)
-    )
-
-
-    # ========================================================
-    # RESULTS
-    # ========================================================
-
-    st.divider()
-
-    st.subheader("Prediction Results")
-
-
-    col1, col2 = st.columns(2)
-
-
-    with col1:
-
-        st.metric(
-            label="Predicted Next-Year PTB",
-            value=f"{predicted_ptb:.2f}%"
+        risk_index = max(
+            0,
+            min(100, risk_index)
         )
 
 
-    with col2:
+# ============================================================
+# DISPLAY RESULTS
+# ============================================================
 
-        st.metric(
-            label="Maternal Health Risk Index",
-            value=f"{risk_index} / 100"
-        )
+col1, col2 = st.columns(2)
 
+
+with col1:
+
+    st.metric(
+        label="Predicted Next-Year PTB",
+        value=f"{predicted_ptb:.2f}%"
+    )
+
+
+with col2:
+
+    st.metric(
+        label="Maternal Health Risk Index",
+        value=f"{risk_index} / 100"
+    )
+
+
+# Only show interpretation after a valid prediction
+if predict_button and all_complete:
 
     st.write(
         f"""
@@ -284,9 +362,15 @@ if st.button(
         """
     )
 
+elif not all_complete:
+
+    st.caption(
+        "Complete all required fields to generate a prediction."
+    )
+
 
 # ============================================================
-# METHODS NOTE
+# ABOUT MODEL
 # ============================================================
 
 st.divider()
@@ -295,6 +379,8 @@ with st.expander("About the model"):
 
     st.write(
         """
+        **Developed by Prafulla Caringula and Dr. Yu-Sheng Lee**
+
         The prediction model is a Random Forest regression model
         developed using annual Illinois county-level data.
 
@@ -309,7 +395,5 @@ with st.expander("About the model"):
         The tool is intended for public health planning and
         research and should not be interpreted as an
         individual-level clinical risk assessment.
-        
-        "This tool is developed by Dr. Yu-Sheng Lee | University of Illinois Springfield and Prafulla Caringula | Woodford County Health Department"
         """
     )
