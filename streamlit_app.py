@@ -125,19 +125,19 @@ pm25 = st.number_input(
 
 cdd = st.number_input(
     "Cooling Degree Days (CDD)",
-    min_value=0.0,
-    max_value=10000.0,
-    value=1200.0,
-    step=10.0
+    min_value=0,
+    max_value=10000,
+    value=1200,
+    step=10
 )
 
 
 hdd = st.number_input(
     "Heating Degree Days (HDD)",
-    min_value=0.0,
-    max_value=15000.0,
-    value=5200.0,
-    step=10.0
+    min_value=0,
+    max_value=15000,
+    value=5200,
+    step=10
 )
 
 
@@ -169,7 +169,7 @@ unmarried = st.number_input(
 
 
 hpsa_label = st.selectbox(
-    "Primary Care HPSA",
+    "HPSA primary care provider shortage",
     options=[
         "No",
         "Yes"
