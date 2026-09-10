@@ -105,18 +105,15 @@ st.caption(
     "Developed by Prafulla Caringula and Dr. Yu-Sheng Lee"
 )
 
-st.write(
-    """
-    Enter your county's current maternal, social, healthcare-access,
-    and environmental indicators to estimate the next-year
-    preterm birth percentage.
-    """
-)
-
 st.caption(
     "County-level research tool. This model does not estimate individual pregnancy risk."
 )
 
+st.write(
+    """
+    Enter your county's current information.
+    """
+)
 
 # ============================================================
 # INPUTS
