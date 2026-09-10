@@ -115,7 +115,7 @@ st.markdown(
 
 st.markdown(
     """
-    <div style="color:#d16a8a; font-size:16px; margin-top:8px; margin-bottom:18px;">
+    <div style="color:#d16a8a; font-size:18px; margin-top:8px; margin-bottom:18px;">
         County-level research tool; not intended for individual pregnancy risk assessment.
     </div>
     """,
