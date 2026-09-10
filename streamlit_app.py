@@ -439,7 +439,6 @@ with st.expander("About the model"):
 
     st.write(
         """
-        **Developed by Prafulla Caringula and Dr. Yu-Sheng Lee**
 
         The prediction model is a Random Forest regression model developed using annual Illinois county-level data.
 
