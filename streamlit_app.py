@@ -317,6 +317,7 @@ with st.expander("About the model"):
         The tool is intended for public health planning and
         research and should not be interpreted as an
         individual-level clinical risk assessment.
+        
         "Developed by Dr. Yu-Sheng Lee | University of Illinois Springfield and Prafulla Caringula | Woodford County Health Department"
         """
     )
