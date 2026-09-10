@@ -395,5 +395,7 @@ with st.expander("About the model"):
         The tool is intended for public health planning and
         research and should not be interpreted as an
         individual-level clinical risk assessment.
+
+        This tool was developed by Prafulla Caringula of the Woodford County Health Department and Dr. Yu-Sheng Lee of the University of Illinois Springfield.
         """
     )
