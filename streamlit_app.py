@@ -704,22 +704,30 @@ st.subheader(
 
 col1, col2 = st.columns(2)
 
-
 with col1:
+
+    if predict_button and all_complete:
+        ptb_display = f"{predicted_ptb:.2f}%"
+    else:
+        ptb_display = "—"
 
     st.metric(
         label="Predicted Next-Year PTB",
-        value=f"{predicted_ptb:.2f}%"
+        value=ptb_display
     )
 
 
 with col2:
 
+    if predict_button and all_complete:
+        percentile_display = f"{risk_index} / 100"
+    else:
+        percentile_display = "—"
+
     st.metric(
         label="Predicted Preterm Birth Percentile",
-        value=f"{risk_index} / 100"
+        value=percentile_display
     )
-
 
 # ============================================================
 # RESULT INTERPRETATION
@@ -729,7 +737,7 @@ if predict_button and all_complete:
 
     st.write(
         f"""
-        A risk index of **{risk_index}** indicates that the
+        A percentile of **{risk_index}** indicates that the
         predicted next-year preterm birth percentage is higher
         than approximately **{risk_index}%** of Illinois
         county-year preterm birth percentages in the historical
