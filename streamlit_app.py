@@ -104,8 +104,13 @@ reference = load_reference()
 
 st.title("Illinois Preterm Birth Risk Index")
 
-st.caption(
-    "Developed by Prafulla Caringula and Dr. Yu-Sheng Lee"
+st.markdown(
+    """
+    <div style="font-size:15px; color:#8a8f98; margin-top:-8px; margin-bottom:6px;">
+        Developed by Prafulla Caringula and Dr. Yu-Sheng Lee
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
 st.caption(
