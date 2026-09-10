@@ -781,7 +781,7 @@ with col1:
 
 
     st.metric(
-        label="County's Next-Year Preterm Birth %",
+        label="Next-Year Preterm Birth %",
         value=ptb_display
     )
 
