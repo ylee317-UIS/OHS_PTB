@@ -712,7 +712,7 @@ with col1:
         ptb_display = "—"
 
     st.metric(
-        label="Predicted Next-Year PTB",
+        label="Predicted Next-Year Preterm Birth %",
         value=ptb_display
     )
 
