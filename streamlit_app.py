@@ -14,11 +14,16 @@ st.set_page_config(
     layout="centered"
 )
 
+
+# ============================================================
+# FONT / DISPLAY SETTINGS
+# ============================================================
+
 st.markdown(
     """
     <style>
 
-       html, body, [class*="css"] {
+    html, body, [class*="css"] {
         font-size: 20px;
     }
 
@@ -34,14 +39,14 @@ st.markdown(
         font-size: 28px !important;
     }
 
-       p {
+    p {
         font-size: 20px !important;
     }
 
     label {
         font-size: 20px !important;
     }
-   
+
     input {
         font-size: 20px !important;
     }
@@ -50,22 +55,19 @@ st.markdown(
         font-size: 20px !important;
     }
 
-        .stButton button {
+    .stButton button {
         font-size: 22px !important;
         font-weight: 600;
     }
 
-    /* metric */
     [data-testid="stMetricLabel"] {
         font-size: 20px !important;
     }
 
-    /* metric */
     [data-testid="stMetricValue"] {
         font-size: 36px !important;
     }
 
-    /* caption */
     [data-testid="stCaptionContainer"] {
         font-size: 17px !important;
     }
@@ -74,6 +76,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 # ============================================================
 # LOAD MODEL
@@ -114,7 +117,10 @@ st.caption(
 # INPUTS
 # ============================================================
 
-st.subheader("Complete your county's indicator to generate a prediction")
+st.subheader(
+    "Complete your county's indicators to generate a prediction"
+)
+
 
 current_ptb = st.number_input(
     "Current Preterm Birth (%); please enter 0-100",
@@ -124,6 +130,7 @@ current_ptb = st.number_input(
     step=0.1,
     placeholder="Enter value"
 )
+
 
 age_lt20 = st.number_input(
     "Maternal Age <20 (%); please enter 0-100",
@@ -257,25 +264,34 @@ hdd = st.number_input(
 
 required_inputs = [
     current_ptb,
-    svi,
     age_lt20,
     age_40plus,
     black_mother,
+    unmarried,
+    svi,
     multiple_gestation,
+    low_birth_weight,
+    caesarian,
     rucc,
+    hpsa_label,
     pm25,
     cdd,
-    hdd,
-    caesarian,
-    low_birth_weight,
-    unmarried,
-    hpsa_label
+    hdd
 ]
+
 
 all_complete = all(
     value is not None
     for value in required_inputs
 )
+
+
+# ============================================================
+# DEFAULT RESULTS
+# ============================================================
+
+predicted_ptb = 0.0
+risk_index = 0
 
 
 # ============================================================
@@ -287,8 +303,86 @@ st.write("")
 predict_button = st.button(
     "Predict Next-Year Risk",
     type="primary",
-    use_container_width=True
+    use_container_width=True,
+    disabled=not all_complete
 )
+
+
+# ============================================================
+# PREDICTION
+# ============================================================
+
+if predict_button and all_complete:
+
+    # Convert HPSA selection to model value
+    hpsa = 1 if hpsa_label == "Yes" else 0
+
+
+    # --------------------------------------------------------
+    # CREATE MODEL INPUT
+    # --------------------------------------------------------
+
+    input_data = pd.DataFrame(
+        [{
+            "PTB": current_ptb,
+            "SVI": svi,
+            "Age_lt20": age_lt20,
+            "Age_40plus": age_40plus,
+            "Black_Mother": black_mother,
+            "Multiple_Gestation": multiple_gestation,
+            "RUCC": rucc,
+            "PM25": pm25,
+            "CDD": cdd,
+            "HDD": hdd,
+            "Caesarian": caesarian,
+            "Low_Birth_Weight": low_birth_weight,
+            "Unmarried": unmarried,
+            "HPSA_PrimaryCare": hpsa
+        }]
+    )
+
+
+    # Ensure predictor order is identical to training model
+    input_data = input_data[features]
+
+
+    # --------------------------------------------------------
+    # RANDOM FOREST PREDICTION
+    # --------------------------------------------------------
+
+    predicted_ptb = float(
+        model.predict(input_data)[0]
+    )
+
+
+    # --------------------------------------------------------
+    # MATERNAL HEALTH RISK INDEX
+    # --------------------------------------------------------
+
+    risk_index = int(
+        round(
+            100 *
+            np.mean(
+                reference <= predicted_ptb
+            )
+        )
+    )
+
+    risk_index = max(
+        0,
+        min(100, risk_index)
+    )
+
+
+# ============================================================
+# INCOMPLETE INPUT MESSAGE
+# ============================================================
+
+if not all_complete:
+
+    st.caption(
+        "Complete all required fields to generate a prediction."
+    )
 
 
 # ============================================================
@@ -300,99 +394,37 @@ st.divider()
 st.subheader("Prediction Results")
 
 
-# Default results when inputs are incomplete
-predicted_ptb = 0.0
-risk_index = 0
+col1, col2 = st.columns(2)
 
 
-if predict_button:
+with col1:
 
-    if not all_complete:
-
-        st.warning(
-            "Please complete all required county indicators before generating a prediction."
-        )
-
-    else:
-
-        # Convert HPSA to model value
-        hpsa = 1 if hpsa_label == "Yes" else 0
-
-
-        # ----------------------------------------------------
-        # CREATE MODEL INPUT
-        # ----------------------------------------------------
-
-        input_data = pd.DataFrame(
-            [{
-                "PTB": current_ptb,
-                "SVI": svi,
-                "Age_lt20": age_lt20,
-                "Age_40plus": age_40plus,
-                "Black_Mother": black_mother,
-                "Multiple_Gestation": multiple_gestation,
-                "RUCC": rucc,
-                "PM25": pm25,
-                "CDD": cdd,
-                "HDD": hdd,
-                "Caesarian": caesarian,
-                "Low_Birth_Weight": low_birth_weight,
-                "Unmarried": unmarried,
-                "HPSA_PrimaryCare": hpsa
-            }]
-        )
-
-
-        # Ensure same predictor order used during training
-        input_data = input_data[features]
-
-
-        # ----------------------------------------------------
-        # RANDOM FOREST PREDICTION
-        # ----------------------------------------------------
-
-        predicted_ptb = float(
-            model.predict(input_data)[0]
-        )
-
-
-        # ----------------------------------------------------
-        # CONVERT PREDICTED PTB TO 0-100 RISK INDEX
-        # ----------------------------------------------------
-
-        risk_index = int(
-            round(
-                100 *
-                np.mean(
-                    reference <= predicted_ptb
-                )
-            )
-        )
-
-
-        risk_index = max(
-            0,
-            min(100, risk_index)
-        )
-
-
-# ============================================================
-# DISPLAY RESULTS
-# ============================================================
-
-if not all_complete:
-    st.caption(
-        "Complete all required fields to generate a prediction."
+    st.metric(
+        label="Predicted Next-Year PTB",
+        value=f"{predicted_ptb:.2f}%"
     )
 
-st.divider()
 
-st.subheader("Prediction Results")
+with col2:
+
+    st.metric(
+        label="Maternal Health Risk Index",
+        value=f"{risk_index} / 100"
+    )
 
 
-# Default results when inputs are incomplete
-predicted_ptb = 0.0
-risk_index = 0
+# Show interpretation only after an actual prediction
+if predict_button and all_complete:
+
+    st.write(
+        f"""
+        A risk index of **{risk_index}** indicates that the
+        predicted next-year preterm birth percentage is higher
+        than approximately **{risk_index}%** of Illinois
+        county-year preterm birth percentages in the historical
+        reference distribution.
+        """
+    )
 
 
 # ============================================================
@@ -405,11 +437,28 @@ with st.expander("About the model"):
 
     st.write(
         """
+        This prediction model is a Random Forest regression model
+        developed using annual Illinois county-level data.
+        Predictors from year t are used to forecast the preterm
+        birth percentage in year t+1.
 
-        This prediction model is a Random Forest regression model developed using annual Illinois county-level data. Predictors from year t are used to forecast the preterm birth percentage in year t+1. The 0–100 Maternal Health Risk Index represents the percentile of the predicted preterm birth percentage relative to the historical Illinois county-year preterm birth distribution.
+        The 0–100 Maternal Health Risk Index represents the
+        percentile of the predicted preterm birth percentage
+        relative to the historical Illinois county-year preterm
+        birth distribution.
 
-        This tool is intended for public health planning and research and should not be interpreted as an individual-level clinical risk assessment.
+        This tool is intended for public health planning and
+        research and should not be interpreted as an
+        individual-level clinical risk assessment.
 
-        The model and tool was developed by Prafulla Caringula of the Woodford County Health Department and Dr. Yu-Sheng Lee of the University of Illinois Springfield. If you have questions about this research, you may contact: Yu-Sheng Lee, ylee317@uis.edu, 1-217-206-7874.  
+        The model and tool were developed by Prafulla Caringula
+        of the Woodford County Health Department and Dr. Yu-Sheng Lee
+        of the University of Illinois Springfield.
+
+        If you have questions about this research, please contact:
+
+        **Yu-Sheng Lee**  
+        Email: ylee317@uis.edu  
+        Phone: 1-217-206-7874
         """
     )
