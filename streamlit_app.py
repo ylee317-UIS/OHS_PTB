@@ -16,7 +16,7 @@ st.caption(
 
 st.write(
     """
-    Enter current county-level maternal, social, healthcare-access,
+    Enter your county's current maternal, social, healthcare-access,
     and environmental indicators to estimate the next-year
     preterm birth percentage.
     """
