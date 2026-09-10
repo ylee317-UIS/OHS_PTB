@@ -57,7 +57,7 @@ current_ptb = st.number_input(
     "Current Preterm Birth (%)",
     min_value=0.0,
     max_value=40.0,
-    value=10.0,
+    value=0.0,
     step=0.1
 )
 
@@ -66,7 +66,7 @@ svi = st.number_input(
     "Social Vulnerability Index (SVI)",
     min_value=0.0,
     max_value=1.0,
-    value=0.50,
+    value=0.00,
     step=0.01
 )
 
@@ -75,7 +75,7 @@ age_lt20 = st.number_input(
     "Maternal Age <20 (%)",
     min_value=0.0,
     max_value=100.0,
-    value=5.0,
+    value=0.0,
     step=0.1
 )
 
@@ -84,7 +84,7 @@ age_40plus = st.number_input(
     "Maternal Age 40+ (%)",
     min_value=0.0,
     max_value=100.0,
-    value=2.0,
+    value=0.0,
     step=0.1
 )
 
@@ -93,7 +93,7 @@ black_mother = st.number_input(
     "Black Mothers (%)",
     min_value=0.0,
     max_value=100.0,
-    value=10.0,
+    value=0.0,
     step=0.1
 )
 
@@ -102,15 +102,15 @@ multiple_gestation = st.number_input(
     "Multiple Gestation (%)",
     min_value=0.0,
     max_value=100.0,
-    value=3.0,
+    value=0.0,
     step=0.1
 )
 
 
 rucc = st.selectbox(
-    "Rural-Urban Continuum Code (RUCC)",
+    "Rural-Urban Continuum Code (RUCC); please enter 1-9",
     options=[1, 2, 3, 4, 5, 6, 7, 8, 9],
-    index=4
+    index=1
 )
 
 
@@ -118,25 +118,25 @@ pm25 = st.number_input(
     "Annual PM2.5 (µg/m³)",
     min_value=0.0,
     max_value=50.0,
-    value=9.0,
+    value=0.0,
     step=0.1
 )
 
 
 cdd = st.number_input(
-    "Cooling Degree Days (CDD)",
+    "Cooling Degree Days (CDD); please enter 0-10000",
     min_value=0,
     max_value=10000,
-    value=1200,
+    value=0,
     step=10
 )
 
 
 hdd = st.number_input(
-    "Heating Degree Days (HDD)",
+    "Heating Degree Days (HDD); please enter 0-15000",
     min_value=0,
     max_value=15000,
-    value=5200,
+    value=0,
     step=10
 )
 
@@ -145,7 +145,7 @@ caesarian = st.number_input(
     "Caesarian Delivery (%)",
     min_value=0.0,
     max_value=100.0,
-    value=32.0,
+    value=0.0,
     step=0.1
 )
 
@@ -154,7 +154,7 @@ low_birth_weight = st.number_input(
     "Low Birth Weight (%)",
     min_value=0.0,
     max_value=100.0,
-    value=8.0,
+    value=0.0,
     step=0.1
 )
 
@@ -163,7 +163,7 @@ unmarried = st.number_input(
     "Unmarried Mothers (%)",
     min_value=0.0,
     max_value=100.0,
-    value=40.0,
+    value=0.0,
     step=0.1
 )
 
