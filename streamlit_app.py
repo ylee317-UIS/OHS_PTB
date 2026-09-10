@@ -99,23 +99,240 @@ reference = load_reference()
 
 
 # ============================================================
+# CUSTOM NUMERIC INPUT
+# Allows:
+# 1. Blank initial value
+# 2. Direct keyboard entry
+# 3. +/- buttons from blank state
+# ============================================================
+
+def adjust_numeric_value(
+    text_key,
+    min_value,
+    max_value,
+    step,
+    decimals,
+    direction
+):
+    raw = st.session_state.get(text_key, "")
+
+    if raw is None:
+        raw = ""
+
+    raw = str(raw).strip().replace(",", "")
+
+    try:
+        current_value = float(raw) if raw != "" else None
+    except ValueError:
+        current_value = None
+
+    # If currently blank:
+    # + starts at min + step
+    # - starts at min
+    if current_value is None:
+
+        if direction > 0:
+            new_value = min_value + step
+        else:
+            new_value = min_value
+
+    else:
+
+        new_value = current_value + (direction * step)
+
+    # Keep within allowed range
+    new_value = max(
+        min_value,
+        min(max_value, new_value)
+    )
+
+    # Format displayed value
+    if decimals == 0:
+
+        st.session_state[text_key] = str(
+            int(round(new_value))
+        )
+
+    else:
+
+        st.session_state[text_key] = (
+            f"{new_value:.{decimals}f}"
+        )
+
+
+def numeric_input(
+    label,
+    key,
+    min_value,
+    max_value,
+    step,
+    decimals=1
+):
+    text_key = f"{key}_text"
+
+    # Initial blank value
+    if text_key not in st.session_state:
+        st.session_state[text_key] = ""
+
+    # Input label
+    st.markdown(
+        f"""
+        <div style="
+            font-size:20px;
+            margin-bottom:5px;
+        ">
+            {label}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Minus | Input | Plus
+    col_minus, col_input, col_plus = st.columns(
+        [1, 8, 1],
+        gap="small"
+    )
+
+    # --------------------------------------------------------
+    # MINUS BUTTON
+    # --------------------------------------------------------
+
+    with col_minus:
+
+        st.button(
+            "−",
+            key=f"{key}_minus",
+            use_container_width=True,
+            on_click=adjust_numeric_value,
+            args=(
+                text_key,
+                min_value,
+                max_value,
+                step,
+                decimals,
+                -1
+            )
+        )
+
+    # --------------------------------------------------------
+    # TEXT INPUT
+    # --------------------------------------------------------
+
+    with col_input:
+
+        raw_value = st.text_input(
+            label,
+            key=text_key,
+            label_visibility="collapsed",
+            placeholder="Enter value"
+        )
+
+    # --------------------------------------------------------
+    # PLUS BUTTON
+    # --------------------------------------------------------
+
+    with col_plus:
+
+        st.button(
+            "+",
+            key=f"{key}_plus",
+            use_container_width=True,
+            on_click=adjust_numeric_value,
+            args=(
+                text_key,
+                min_value,
+                max_value,
+                step,
+                decimals,
+                1
+            )
+        )
+
+    # --------------------------------------------------------
+    # VALIDATE INPUT
+    # --------------------------------------------------------
+
+    if raw_value is None:
+        return None
+
+    cleaned_value = (
+        str(raw_value)
+        .strip()
+        .replace(",", "")
+    )
+
+    # Still blank
+    if cleaned_value == "":
+        return None
+
+    # Must be numeric
+    try:
+        value = float(cleaned_value)
+
+    except ValueError:
+
+        st.error(
+            f"{label}: please enter a numeric value."
+        )
+
+        return None
+
+    # Must fall inside requested range
+    if value < min_value or value > max_value:
+
+        st.error(
+            f"{label}: value must be between "
+            f"{min_value} and {max_value}."
+        )
+
+        return None
+
+    # Integer-only fields
+    if decimals == 0:
+
+        if not value.is_integer():
+
+            st.error(
+                f"{label}: please enter a whole number."
+            )
+
+            return None
+
+        return int(value)
+
+    return value
+
+
+# ============================================================
 # TITLE
 # ============================================================
 
 st.title("Illinois Preterm Birth Risk Index")
 
+
 st.markdown(
     """
-    <div style="font-size:15px; color:#8a8f98; margin-top:-8px; margin-bottom:6px;">
+    <div style="
+        font-size:15px;
+        color:#8a8f98;
+        margin-top:-8px;
+        margin-bottom:6px;
+    ">
         Developed by Prafulla Caringula and Dr. Yu-Sheng Lee
     </div>
     """,
     unsafe_allow_html=True
 )
 
+
 st.markdown(
     """
-    <div style="color:#d16a8a; font-size:18px; margin-top:8px; margin-bottom:18px;">
+    <div style="
+        color:#d16a8a;
+        font-size:18px;
+        margin-top:8px;
+        margin-bottom:18px;
+    ">
         County-level research tool; not intended for individual pregnancy risk assessment.
     </div>
     """,
@@ -132,139 +349,200 @@ st.subheader(
 )
 
 
-current_ptb = st.number_input(
+# ------------------------------------------------------------
+# Current PTB
+# ------------------------------------------------------------
+
+current_ptb = numeric_input(
     "Current Preterm Birth (%); please enter 0-100",
+    key="current_ptb",
     min_value=0.0,
     max_value=100.0,
-    value=None,
     step=0.1,
-    placeholder="Enter value"
+    decimals=1
 )
 
 
-age_lt20 = st.number_input(
+# ------------------------------------------------------------
+# Maternal age <20
+# ------------------------------------------------------------
+
+age_lt20 = numeric_input(
     "Maternal Age <20 (%); please enter 0-100",
+    key="age_lt20",
     min_value=0.0,
     max_value=100.0,
-    value=None,
     step=0.1,
-    placeholder="Enter value"
+    decimals=1
 )
 
 
-age_40plus = st.number_input(
+# ------------------------------------------------------------
+# Maternal age 40+
+# ------------------------------------------------------------
+
+age_40plus = numeric_input(
     "Maternal Age 40+ (%); please enter 0-100",
+    key="age_40plus",
     min_value=0.0,
     max_value=100.0,
-    value=None,
     step=0.1,
-    placeholder="Enter value"
+    decimals=1
 )
 
 
-black_mother = st.number_input(
+# ------------------------------------------------------------
+# Black mothers
+# ------------------------------------------------------------
+
+black_mother = numeric_input(
     "Black Mothers (%); please enter 0-100",
+    key="black_mother",
     min_value=0.0,
     max_value=100.0,
-    value=None,
     step=0.1,
-    placeholder="Enter value"
+    decimals=1
 )
 
 
-unmarried = st.number_input(
+# ------------------------------------------------------------
+# Unmarried mothers
+# ------------------------------------------------------------
+
+unmarried = numeric_input(
     "Unmarried Mothers (%); please enter 0-100",
+    key="unmarried",
     min_value=0.0,
     max_value=100.0,
-    value=None,
     step=0.1,
-    placeholder="Enter value"
+    decimals=1
 )
 
 
-svi = st.number_input(
+# ------------------------------------------------------------
+# SVI
+# ------------------------------------------------------------
+
+svi = numeric_input(
     "Social Vulnerability Index (SVI); please enter 0-1",
+    key="svi",
     min_value=0.0,
     max_value=1.0,
-    value=None,
     step=0.01,
-    placeholder="Enter value"
+    decimals=2
 )
 
 
-multiple_gestation = st.number_input(
+# ------------------------------------------------------------
+# Multiple gestation
+# ------------------------------------------------------------
+
+multiple_gestation = numeric_input(
     "Multiple Gestation (%); please enter 0-100",
+    key="multiple_gestation",
     min_value=0.0,
     max_value=100.0,
-    value=None,
     step=0.1,
-    placeholder="Enter value"
+    decimals=1
 )
 
 
-low_birth_weight = st.number_input(
+# ------------------------------------------------------------
+# Low birth weight
+# ------------------------------------------------------------
+
+low_birth_weight = numeric_input(
     "Low Birth Weight (%); please enter 0-100",
+    key="low_birth_weight",
     min_value=0.0,
     max_value=100.0,
-    value=None,
     step=0.1,
-    placeholder="Enter value"
+    decimals=1
 )
 
 
-caesarian = st.number_input(
+# ------------------------------------------------------------
+# Caesarian delivery
+# ------------------------------------------------------------
+
+caesarian = numeric_input(
     "Caesarian Delivery (%); please enter 0-100",
+    key="caesarian",
     min_value=0.0,
     max_value=100.0,
-    value=None,
     step=0.1,
-    placeholder="Enter value"
+    decimals=1
 )
 
+
+# ------------------------------------------------------------
+# RUCC
+# ------------------------------------------------------------
 
 rucc = st.selectbox(
     "Rural-Urban Continuum Code (RUCC)",
-    options=[1, 2, 3, 4, 5, 6, 7, 8, 9],
+    options=[
+        1, 2, 3, 4, 5, 6, 7, 8, 9
+    ],
     index=None,
     placeholder="Select RUCC"
 )
 
 
+# ------------------------------------------------------------
+# HPSA
+# ------------------------------------------------------------
+
 hpsa_label = st.selectbox(
     "HPSA primary care provider shortage",
-    options=["No", "Yes"],
+    options=[
+        "No",
+        "Yes"
+    ],
     index=None,
     placeholder="Select No or Yes"
 )
 
 
-pm25 = st.number_input(
+# ------------------------------------------------------------
+# PM2.5
+# ------------------------------------------------------------
+
+pm25 = numeric_input(
     "Annual PM2.5 (µg/m³); please enter 0-50",
+    key="pm25",
     min_value=0.0,
     max_value=50.0,
-    value=None,
     step=0.1,
-    placeholder="Enter value"
+    decimals=1
 )
 
 
-cdd = st.number_input(
+# ------------------------------------------------------------
+# CDD
+# ------------------------------------------------------------
+
+cdd = numeric_input(
     "Cooling Degree Days (CDD); please enter 0-10000",
+    key="cdd",
     min_value=0,
     max_value=10000,
-    value=None,
     step=1,
-    placeholder="Enter value"
+    decimals=0
 )
 
 
-hdd = st.number_input(
+# ------------------------------------------------------------
+# HDD
+# ------------------------------------------------------------
+
+hdd = numeric_input(
     "Heating Degree Days (HDD); please enter 0-15000",
+    key="hdd",
     min_value=0,
     max_value=15000,
-    value=None,
     step=1,
-    placeholder="Enter value"
+    decimals=0
 )
 
 
@@ -324,8 +602,15 @@ predict_button = st.button(
 
 if predict_button and all_complete:
 
-    # Convert HPSA selection to model value
-    hpsa = 1 if hpsa_label == "Yes" else 0
+    # --------------------------------------------------------
+    # Convert HPSA to model value
+    # --------------------------------------------------------
+
+    hpsa = (
+        1
+        if hpsa_label == "Yes"
+        else 0
+    )
 
 
     # --------------------------------------------------------
@@ -352,8 +637,13 @@ if predict_button and all_complete:
     )
 
 
-    # Ensure predictor order is identical to training model
-    input_data = input_data[features]
+    # --------------------------------------------------------
+    # Ensure exact predictor order used during training
+    # --------------------------------------------------------
+
+    input_data = input_data[
+        features
+    ]
 
 
     # --------------------------------------------------------
@@ -361,7 +651,9 @@ if predict_button and all_complete:
     # --------------------------------------------------------
 
     predicted_ptb = float(
-        model.predict(input_data)[0]
+        model.predict(
+            input_data
+        )[0]
     )
 
 
@@ -378,9 +670,13 @@ if predict_button and all_complete:
         )
     )
 
+
     risk_index = max(
         0,
-        min(100, risk_index)
+        min(
+            100,
+            risk_index
+        )
     )
 
 
@@ -401,7 +697,9 @@ if not all_complete:
 
 st.divider()
 
-st.subheader("Prediction Results")
+st.subheader(
+    "Prediction Results"
+)
 
 
 col1, col2 = st.columns(2)
@@ -423,7 +721,10 @@ with col2:
     )
 
 
-# Show interpretation only after an actual prediction
+# ============================================================
+# RESULT INTERPRETATION
+# ============================================================
+
 if predict_button and all_complete:
 
     st.write(
@@ -438,12 +739,15 @@ if predict_button and all_complete:
 
 
 # ============================================================
-# ABOUT MODEL
+# ABOUT TOOL
 # ============================================================
 
 st.divider()
 
-with st.expander("About the tool"):
+
+with st.expander(
+    "About the tool"
+):
 
     st.write(
         """
@@ -463,6 +767,7 @@ with st.expander("About the tool"):
         of the Woodford County Health Department and Dr. Yu-Sheng Lee
         of the University of Illinois Springfield.
 
-        If you have questions about this tool, please contact: Dr. Yu-Sheng Lee | ylee317@uis.edu | 1-217-206-7874.
+        If you have questions about this tool, please contact:
+        Dr. Yu-Sheng Lee | ylee317@uis.edu | 1-217-206-7874.
         """
     )
