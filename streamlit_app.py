@@ -698,7 +698,7 @@ if not all_complete:
 st.divider()
 
 st.subheader(
-    "Prediction Results"
+    "Next-Year Prediction Results"
 )
 
 
@@ -712,7 +712,7 @@ with col1:
         ptb_display = "—"
 
     st.metric(
-        label="Predicted Next-Year Preterm Birth %",
+        label="Predicted Preterm Birth %",
         value=ptb_display
     )
 
