@@ -445,9 +445,7 @@ with st.expander("About the model"):
         This prediction model is a Random Forest regression model
         developed using annual Illinois county-level data.
         Predictors from year t are used to forecast the preterm
-        birth percentage in year t+1.
-
-        The 0–100 Maternal Health Risk Index represents the
+        birth percentage in year t+1. The 0–100 Maternal Health Risk Index represents the
         percentile of the predicted preterm birth percentage
         relative to the historical Illinois county-year preterm
         birth distribution.
