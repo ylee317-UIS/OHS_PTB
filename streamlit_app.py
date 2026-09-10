@@ -11,7 +11,7 @@ import joblib
 st.title("Illinois Preterm Birth Risk Index")
 
 st.caption(
-    "Developed by Prafulla Caringula and Dr. Yu-Sheng Lee | University of Illinois Springfield"
+    "Developed by Prafulla Caringula and Dr. Yu-Sheng Lee"
 )
 
 st.write(
