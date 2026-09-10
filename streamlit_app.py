@@ -438,7 +438,7 @@ if predict_button and all_complete:
 
 st.divider()
 
-with st.expander("About the model"):
+with st.expander("About the tool"):
 
     st.write(
         """
