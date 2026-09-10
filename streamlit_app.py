@@ -804,7 +804,7 @@ with col2:
 
 
     st.metric(
-        label="County's Next-Year Preterm Birth Percentile^",
+        label="Next-Year Preterm Birth Percentile^",
         value=percentile_display
     )
 
@@ -821,11 +821,8 @@ if (
 
     st.write(
         f"""
-        ^A percentile of **{ptb_percentile}** indicates that the
-        predicted next-year preterm birth percentage is higher
-        than approximately **{ptb_percentile}%** of Illinois
-        county-year preterm birth percentages in the historical
-        reference distribution.
+        ^A percentile of **{ptb_percentile}** indicates that the predicted next-year preterm birth percentage is higher
+        than approximately **{ptb_percentile}%** of Illinois county-year preterm birth percentages in the historical reference distribution.
         """
     )
 
@@ -844,13 +841,10 @@ with st.expander(
     st.write(
         """
         This prediction model is a Random Forest regression model developed using annual Illinois county-level data.
-        Predictors from year t are used to forecast the preterm birth percentage in year t+1. The Predicted Preterm Birth Percentile represents the
-        percentile of the predicted next-year preterm birth percentage relative to the historical Illinois county-year
-        preterm birth distribution.
+        Predictors from year t are used to forecast the preterm birth percentage in year t+1. 
+        The Predicted Preterm Birth Percentile represents the percentile of the predicted next-year preterm birth percentage relative to the historical Illinois county-year preterm birth distribution.
 
-        This tool is intended for public health planning and research
-        and should not be interpreted as an individual-level clinical
-        risk assessment.
+        This tool is intended for public health planning and research and should not be interpreted as an individual-level clinical risk assessment.
 
         The model and tool were developed by Prafulla Caringula of the Woodford County Health Department and Dr. Yu-Sheng Lee of the University of Illinois Springfield.
 
