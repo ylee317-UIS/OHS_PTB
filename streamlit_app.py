@@ -716,7 +716,7 @@ with col1:
 with col2:
 
     st.metric(
-        label="Maternal Health Risk Index",
+        label="Predicted Preterm Birth Percentile",
         value=f"{risk_index} / 100"
     )
 
