@@ -50,8 +50,6 @@ reference = load_reference()
 # TITLE
 # ============================================================
 
-st.title("Illinois Preterm Birth Risk Index")
-
 st.write(
     """
     Enter current county-level maternal, social, healthcare-access,
