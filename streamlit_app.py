@@ -840,7 +840,7 @@ with st.expander(
 
     st.write(
         """
-        This prediction model is a Random Forest regression model developed using annual Illinois county-level data.
+        This prediction model is a birth-weighted Random Forest regression model developed using annual Illinois county-level data. Annual county observations were weighted by the number of births associated with the next-year preterm birth outcome during model fitting.
         Predictors from year t are used to forecast the preterm birth percentage in year t+1. 
         The Predicted Preterm Birth Percentile represents the percentile of the predicted next-year preterm birth percentage relative to the historical Illinois county-year preterm birth distribution.
 
