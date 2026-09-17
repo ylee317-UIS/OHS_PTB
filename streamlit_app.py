@@ -10,7 +10,7 @@ import html
 # ============================================================
 
 st.set_page_config(
-    page_title="Illinois Preterm Birth Prediction Tool",
+    page_title="Illinois Preterm Birth Prediction",
     page_icon="📊",
     layout="centered"
 )
