@@ -10,7 +10,7 @@ import html
 # ============================================================
 
 st.set_page_config(
-    page_title="Illinois Preterm Birth Risk Index",
+    page_title="Illinois Preterm Birth Prediction Tool",
     page_icon="📊",
     layout="centered"
 )
@@ -656,7 +656,7 @@ st.write("")
 
 
 predict_button = st.button(
-    "Predict Next-Year Risk",
+    "Predict Next-Year PTB",
     type="primary",
     use_container_width=True,
     disabled=not all_complete
@@ -848,6 +848,8 @@ with st.expander(
         This prediction model is a birth-weighted Random Forest regression model developed using annual Illinois county-level data. Annual county observations were weighted by the number of births associated with the next-year preterm birth outcome during model fitting.
         Predictors from year t are used to forecast the preterm birth percentage in year t+1. 
         The Predicted Preterm Birth Percentile represents the percentile of the predicted next-year preterm birth percentage relative to the historical Illinois county-year preterm birth distribution.
+
+        Changes in individual input values should not be interpreted as causal changes in preterm birth risk.
 
         This tool is intended for public health planning and research and should not be interpreted as an individual-level clinical risk assessment.
 
