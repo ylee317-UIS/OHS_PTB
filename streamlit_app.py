@@ -752,60 +752,102 @@ if not all_complete:
 
 st.divider()
 
-
 st.subheader(
     "Prediction Results"
 )
 
 
+# ============================================================
+# PREPARE DISPLAY VALUES
+# ============================================================
+
+if predicted_ptb is not None:
+
+    ptb_display = (
+        f"{predicted_ptb:.2f}%"
+    )
+
+else:
+
+    ptb_display = "—"
+
+
+if ptb_percentile is not None:
+
+    percentile_display = (
+        f"{ptb_percentile} / 100"
+    )
+
+else:
+
+    percentile_display = "—"
+
+
+# ============================================================
+# DISPLAY RESULTS
+# ============================================================
+
 col1, col2 = st.columns(
-    2
+    2,
+    gap="large"
 )
 
 
-# ============================================================
-# DISPLAY PREDICTED PTB
-# ============================================================
-
 with col1:
 
-    if predicted_ptb is not None:
+    st.markdown(
+        f"""
+        <div style="
+            font-size:20px;
+            line-height:1.3;
+            margin-bottom:24px;
+        ">
+            <div style="
+                font-size:20px;
+                margin-bottom:14px;
+                white-space:normal;
+            ">
+                Predicted Next-Year Preterm Birth (%)
+            </div>
 
-        ptb_display = (
-            f"{predicted_ptb:.2f}%"
-        )
-
-    else:
-
-        ptb_display = "—"
-
-
-    st.metric(
-        label="Predicted Next-Year Preterm Birth (%)",
-        value=ptb_display
+            <div style="
+                font-size:32px;
+                font-weight:400;
+            ">
+                {ptb_display}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
 
-# ============================================================
-# DISPLAY PTB PERCENTILE
-# ============================================================
-
 with col2:
 
-    if ptb_percentile is not None:
+    st.markdown(
+        f"""
+        <div style="
+            font-size:20px;
+            line-height:1.3;
+            margin-bottom:24px;
+        ">
+            <div style="
+                font-size:20px;
+                margin-bottom:14px;
+                white-space:normal;
+            ">
+                Predicted Next-Year Preterm Birth Percentile
+            </div>
 
-        percentile_display = (
-            f"{ptb_percentile} / 100"
-        )
-
-    else:
-
-        percentile_display = "—"
-
-
-    st.metric(
-        label="Predicted Next-Year Preterm Birth Percentile",
-        value=percentile_display
+            <div style="
+                font-size:32px;
+                font-weight:400;
+            ">
+                {percentile_display}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
 
