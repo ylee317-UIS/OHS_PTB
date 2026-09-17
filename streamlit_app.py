@@ -28,9 +28,17 @@ st.markdown(
         font-size: 20px;
     }
 
+h1 {
+    font-size: 40px !important;
+    white-space: nowrap;
+}
+
+@media (max-width: 700px) {
     h1 {
-        font-size: 46px !important;
+        font-size: 34px !important;
+        white-space: normal;
     }
+}
 
     h2 {
         font-size: 34px !important;
