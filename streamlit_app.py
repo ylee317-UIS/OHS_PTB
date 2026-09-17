@@ -395,7 +395,7 @@ def numeric_input(
 # ============================================================
 
 st.title(
-    "Illinois Preterm Birth Risk Index"
+    "Illinois Preterm Birth Prediction Tool"
 )
 
 
