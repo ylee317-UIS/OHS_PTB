@@ -781,7 +781,7 @@ with col1:
 
 
     st.metric(
-        label="Next-Year Preterm Birth %",
+        label="Predicted Next-Year Preterm Birth (%)",
         value=ptb_display
     )
 
@@ -804,7 +804,7 @@ with col2:
 
 
     st.metric(
-        label="Next-Year Preterm Birth Percentile^",
+        label="Predicted Next-Year Preterm Birth Percentile",
         value=percentile_display
     )
 
@@ -821,11 +821,13 @@ if (
 
     st.write(
         f"""
-        ^A percentile of **{ptb_percentile}** indicates that the predicted next-year preterm birth percentage is higher
-        than approximately **{ptb_percentile}%** of Illinois county-year preterm birth percentages in the historical reference distribution.
+        A percentile of **{ptb_percentile}** indicates that the
+        predicted next-year preterm birth percentage is higher
+        than approximately **{ptb_percentile}%** of Illinois
+        county-year preterm birth percentages in the historical
+        reference distribution.
         """
     )
-
 
 # ============================================================
 # ABOUT TOOL
