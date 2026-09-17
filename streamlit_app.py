@@ -752,9 +752,7 @@ if not all_complete:
 
 st.divider()
 
-st.subheader(
-    "Prediction Results"
-)
+st.subheader("Prediction Results")
 
 
 # ============================================================
@@ -762,24 +760,14 @@ st.subheader(
 # ============================================================
 
 if predicted_ptb is not None:
-
-    ptb_display = (
-        f"{predicted_ptb:.2f}%"
-    )
-
+    ptb_display = f"{predicted_ptb:.2f}%"
 else:
-
     ptb_display = "—"
 
 
 if ptb_percentile is not None:
-
-    percentile_display = (
-        f"{ptb_percentile} / 100"
-    )
-
+    percentile_display = f"{ptb_percentile} / 100"
 else:
-
     percentile_display = "—"
 
 
@@ -787,37 +775,22 @@ else:
 # DISPLAY RESULTS
 # ============================================================
 
-col1, col2 = st.columns(
-    2,
-    gap="large"
-)
+col1, col2 = st.columns(2, gap="large")
 
 
 with col1:
 
     st.markdown(
-        f"""
-        <div style="
-            font-size:20px;
-            line-height:1.3;
-            margin-bottom:24px;
-        ">
-            <div style="
-                font-size:20px;
-                margin-bottom:14px;
-                white-space:normal;
-            ">
-                Predicted Next-Year Preterm Birth (%)
-            </div>
+        '<div style="font-size:20px; line-height:1.35; margin-bottom:14px;">'
+        'Predicted Next-Year Preterm Birth (%)'
+        '</div>',
+        unsafe_allow_html=True
+    )
 
-            <div style="
-                font-size:32px;
-                font-weight:400;
-            ">
-                {ptb_display}
-            </div>
-        </div>
-        """,
+    st.markdown(
+        f'<div style="font-size:32px; font-weight:400; margin-bottom:24px;">'
+        f'{ptb_display}'
+        f'</div>',
         unsafe_allow_html=True
     )
 
@@ -825,28 +798,16 @@ with col1:
 with col2:
 
     st.markdown(
-        f"""
-        <div style="
-            font-size:20px;
-            line-height:1.3;
-            margin-bottom:24px;
-        ">
-            <div style="
-                font-size:20px;
-                margin-bottom:14px;
-                white-space:normal;
-            ">
-                Predicted Next-Year Preterm Birth Percentile
-            </div>
+        '<div style="font-size:20px; line-height:1.35; margin-bottom:14px;">'
+        'Predicted Next-Year Preterm Birth Percentile'
+        '</div>',
+        unsafe_allow_html=True
+    )
 
-            <div style="
-                font-size:32px;
-                font-weight:400;
-            ">
-                {percentile_display}
-            </div>
-        </div>
-        """,
+    st.markdown(
+        f'<div style="font-size:32px; font-weight:400; margin-bottom:24px;">'
+        f'{percentile_display}'
+        f'</div>',
         unsafe_allow_html=True
     )
 
@@ -863,13 +824,13 @@ if (
 
     st.write(
         f"""
-        A percentile of **{ptb_percentile}** indicates that the
-        predicted next-year preterm birth percentage is higher
-        than approximately **{ptb_percentile}%** of Illinois
-        county-year preterm birth percentages in the historical
-        reference distribution.
+A percentile of **{ptb_percentile}** indicates that the predicted
+next-year preterm birth percentage is higher than approximately
+**{ptb_percentile}%** of Illinois county-year preterm birth percentages
+in the historical reference distribution.
         """
     )
+
 
 # ============================================================
 # ABOUT TOOL
