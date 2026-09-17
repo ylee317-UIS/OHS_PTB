@@ -17,68 +17,252 @@ st.set_page_config(
 
 
 # ============================================================
-# FONT / DISPLAY SETTINGS
+# RESPONSIVE DISPLAY SETTINGS
 # ============================================================
 
 st.markdown(
     """
     <style>
 
+    /* ======================================================
+       DESKTOP / DEFAULT
+       ====================================================== */
+
+    .block-container {
+        max-width: 1000px !important;
+        padding-top: 2rem !important;
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+        padding-bottom: 3rem !important;
+    }
+
     html, body, [class*="css"] {
         font-size: 20px;
     }
 
-h1 {
-    font-size: 40px !important;
-    white-space: nowrap;
-}
-
-@media (max-width: 700px) {
     h1 {
-        font-size: 34px !important;
-        white-space: normal;
+        font-size: 42px !important;
+        line-height: 1.15 !important;
+        white-space: nowrap !important;
+        margin-bottom: 0.6rem !important;
     }
-}
 
     h2 {
-        font-size: 34px !important;
+        font-size: 32px !important;
+        line-height: 1.2 !important;
     }
 
     h3 {
-        font-size: 28px !important;
+        font-size: 27px !important;
+        line-height: 1.25 !important;
     }
 
     p {
         font-size: 20px !important;
+        line-height: 1.55 !important;
     }
 
     label {
-        font-size: 20px !important;
+        font-size: 19px !important;
+        line-height: 1.35 !important;
     }
 
     input {
-        font-size: 20px !important;
+        font-size: 19px !important;
     }
 
     div[data-baseweb="select"] {
-        font-size: 20px !important;
+        font-size: 19px !important;
+    }
+
+    [data-testid="stTextInput"] input {
+        min-height: 48px !important;
     }
 
     .stButton button {
-        font-size: 22px !important;
-        font-weight: 600;
-    }
-
-    [data-testid="stMetricLabel"] {
         font-size: 20px !important;
-    }
-
-    [data-testid="stMetricValue"] {
-        font-size: 36px !important;
+        font-weight: 600 !important;
+        min-height: 48px !important;
     }
 
     [data-testid="stCaptionContainer"] {
-        font-size: 17px !important;
+        font-size: 15px !important;
+    }
+
+    .input-label {
+        font-size: 19px;
+        line-height: 1.35;
+        margin-top: 5px;
+        margin-bottom: 6px;
+    }
+
+    .author-line {
+        font-size: 15px;
+        color: #8a8f98;
+        margin-top: -6px;
+        margin-bottom: 8px;
+    }
+
+    .warning-line {
+        color: #E20000;
+        font-size: 18px;
+        line-height: 1.4;
+        margin-top: 8px;
+        margin-bottom: 24px;
+    }
+
+    .results-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        margin-top: 8px;
+        margin-bottom: 24px;
+    }
+
+    .result-item {
+        min-width: 0;
+    }
+
+    .result-label {
+        font-size: 20px;
+        line-height: 1.35;
+        margin-bottom: 14px;
+        white-space: normal;
+        overflow-wrap: normal;
+        word-break: normal;
+    }
+
+    .result-value {
+        font-size: 32px;
+        line-height: 1.2;
+        font-weight: 400;
+    }
+
+
+    /* ======================================================
+       TABLET
+       ====================================================== */
+
+    @media (max-width: 900px) {
+
+        .block-container {
+            max-width: 100% !important;
+            padding-left: 1.5rem !important;
+            padding-right: 1.5rem !important;
+        }
+
+        h1 {
+            font-size: 36px !important;
+            white-space: normal !important;
+        }
+
+        .results-grid {
+            gap: 28px;
+        }
+
+        .result-label {
+            font-size: 18px;
+        }
+
+        .result-value {
+            font-size: 30px;
+        }
+    }
+
+
+    /* ======================================================
+       MOBILE
+       ====================================================== */
+
+    @media (max-width: 700px) {
+
+        .block-container {
+            padding-top: 1.25rem !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            padding-bottom: 2rem !important;
+        }
+
+        h1 {
+            font-size: 30px !important;
+            line-height: 1.15 !important;
+            white-space: normal !important;
+        }
+
+        h2 {
+            font-size: 26px !important;
+        }
+
+        h3 {
+            font-size: 22px !important;
+        }
+
+        p {
+            font-size: 17px !important;
+            line-height: 1.5 !important;
+        }
+
+        label {
+            font-size: 16px !important;
+            line-height: 1.3 !important;
+        }
+
+        input {
+            font-size: 17px !important;
+        }
+
+        div[data-baseweb="select"] {
+            font-size: 17px !important;
+        }
+
+        [data-testid="stTextInput"] input {
+            min-height: 44px !important;
+        }
+
+        .stButton button {
+            font-size: 17px !important;
+            min-height: 44px !important;
+        }
+
+        [data-testid="stCaptionContainer"] {
+            font-size: 14px !important;
+        }
+
+        .input-label {
+            font-size: 16px;
+            line-height: 1.3;
+            margin-bottom: 5px;
+        }
+
+        .author-line {
+            font-size: 13px;
+            line-height: 1.35;
+            margin-top: -4px;
+            margin-bottom: 8px;
+        }
+
+        .warning-line {
+            font-size: 16px;
+            line-height: 1.4;
+            margin-top: 8px;
+            margin-bottom: 20px;
+        }
+
+        .results-grid {
+            grid-template-columns: 1fr;
+            gap: 26px;
+            margin-bottom: 20px;
+        }
+
+        .result-label {
+            font-size: 17px;
+            line-height: 1.35;
+            margin-bottom: 8px;
+        }
+
+        .result-value {
+            font-size: 29px;
+        }
     }
 
     </style>
@@ -94,9 +278,7 @@ h1 {
 @st.cache_resource
 def load_model():
 
-    bundle = joblib.load(
-        "ptb_rf.joblib"
-    )
+    bundle = joblib.load("ptb_rf.joblib")
 
     return (
         bundle["model"],
@@ -107,9 +289,7 @@ def load_model():
 @st.cache_data
 def load_reference():
 
-    ref = pd.read_csv(
-        "ptb_reference.csv"
-    )
+    ref = pd.read_csv("ptb_reference.csv")
 
     return (
         ref["PTB"]
@@ -120,6 +300,36 @@ def load_reference():
 
 model, features = load_model()
 reference = load_reference()
+
+
+# ============================================================
+# VERIFY MODEL MATCHES CURRENT 12-PREDICTOR TOOL
+# ============================================================
+
+expected_features = [
+    "PTB",
+    "SVI",
+    "Age_lt20",
+    "Age_40plus",
+    "Black_Mother",
+    "Multiple_Gestation",
+    "RUCC",
+    "PM25",
+    "CDD",
+    "Caesarian",
+    "Low_Birth_Weight",
+    "Unmarried"
+]
+
+
+if list(features) != expected_features:
+
+    st.error(
+        "The deployed model file does not match the current "
+        "12-predictor version of this tool."
+    )
+
+    st.stop()
 
 
 # ============================================================
@@ -163,26 +373,16 @@ def adjust_numeric_value(
         current_value = None
 
 
-    # --------------------------------------------------------
-    # EMPTY FIELD
-    # --------------------------------------------------------
-
+    # If blank:
+    # + starts at min + step
+    # - starts at min
     if current_value is None:
 
         if direction > 0:
-
-            new_value = (
-                min_value + step
-            )
+            new_value = min_value + step
 
         else:
-
             new_value = min_value
-
-
-    # --------------------------------------------------------
-    # EXISTING VALUE
-    # --------------------------------------------------------
 
     else:
 
@@ -192,10 +392,7 @@ def adjust_numeric_value(
         )
 
 
-    # --------------------------------------------------------
-    # KEEP WITHIN RANGE
-    # --------------------------------------------------------
-
+    # Keep within valid range
     new_value = max(
         min_value,
         min(
@@ -205,10 +402,7 @@ def adjust_numeric_value(
     )
 
 
-    # --------------------------------------------------------
-    # FORMAT
-    # --------------------------------------------------------
-
+    # Format display
     if decimals == 0:
 
         st.session_state[text_key] = str(
@@ -239,37 +433,26 @@ def numeric_input(
 
 
     if text_key not in st.session_state:
-
         st.session_state[text_key] = ""
 
 
-    # Escape < and > in labels
-    safe_label = html.escape(
-        label
-    )
+    safe_label = html.escape(label)
 
 
     st.markdown(
-        f"""
-        <div style="
-            font-size:20px;
-            margin-bottom:5px;
-        ">
-            {safe_label}
-        </div>
-        """,
+        f'<div class="input-label">{safe_label}</div>',
         unsafe_allow_html=True
     )
 
 
     col_minus, col_input, col_plus = st.columns(
-        [1, 8, 1],
+        [1.2, 7.6, 1.2],
         gap="small"
     )
 
 
     # --------------------------------------------------------
-    # MINUS
+    # MINUS BUTTON
     # --------------------------------------------------------
 
     with col_minus:
@@ -305,7 +488,7 @@ def numeric_input(
 
 
     # --------------------------------------------------------
-    # PLUS
+    # PLUS BUTTON
     # --------------------------------------------------------
 
     with col_plus:
@@ -331,7 +514,6 @@ def numeric_input(
     # --------------------------------------------------------
 
     if raw_value is None:
-
         return None
 
 
@@ -343,7 +525,6 @@ def numeric_input(
 
 
     if cleaned_value == "":
-
         return None
 
 
@@ -376,10 +557,7 @@ def numeric_input(
         return None
 
 
-    # --------------------------------------------------------
-    # INTEGER-ONLY FIELD
-    # --------------------------------------------------------
-
+    # Integer-only fields
     if decimals == 0:
 
         if not value.is_integer():
@@ -390,9 +568,7 @@ def numeric_input(
 
             return None
 
-        return int(
-            value
-        )
+        return int(value)
 
 
     return value
@@ -408,31 +584,18 @@ st.title(
 
 
 st.markdown(
-    """
-    <div style="
-        font-size:15px;
-        color:#8a8f98;
-        margin-top:-8px;
-        margin-bottom:6px;
-    ">
-        Developed by Prafulla Caringula and Dr. Yu-Sheng Lee
-    </div>
-    """,
+    '<div class="author-line">'
+    'Developed by Prafulla Caringula and Dr. Yu-Sheng Lee'
+    '</div>',
     unsafe_allow_html=True
 )
 
 
 st.markdown(
-    """
-    <div style="
-        color:#E20000;
-        font-size:20px;
-        margin-top:8px;
-        margin-bottom:18px;
-    ">
-        County-level research tool; not intended for individual pregnancy risk assessment.
-    </div>
-    """,
+    '<div class="warning-line">'
+    'County-level research tool; not intended for individual '
+    'pregnancy risk assessment.'
+    '</div>',
     unsafe_allow_html=True
 )
 
@@ -521,7 +684,7 @@ unmarried = numeric_input(
 # ============================================================
 
 svi = numeric_input(
-    "Social Vulnerability Index (SVI); please enter 0-1",
+    "Social Vulnerability Index (SVI; 0 = lower vulnerability, 1 = higher vulnerability)",
     key="svi",
     min_value=0.0,
     max_value=1.0,
@@ -605,7 +768,7 @@ cdd = numeric_input(
 # ============================================================
 
 rucc = st.selectbox(
-    "Rural-Urban Continuum Code (RUCC)",
+    "Rural-Urban Continuum Code (RUCC; 1 = most urban, 9 = most rural)",
     options=[
         1,
         2,
@@ -636,9 +799,9 @@ required_inputs = [
     multiple_gestation,
     low_birth_weight,
     caesarian,
-    rucc,
     pm25,
-    cdd
+    cdd,
+    rucc
 ]
 
 
@@ -700,10 +863,7 @@ if predict_button and all_complete:
     )
 
 
-    # --------------------------------------------------------
-    # EXACT SAME FEATURE ORDER AS TRAINING MODEL
-    # --------------------------------------------------------
-
+    # Exact predictor order used by training model
     input_data = input_data[
         features
     ]
@@ -760,7 +920,9 @@ if not all_complete:
 
 st.divider()
 
-st.subheader("Prediction Results")
+st.subheader(
+    "Prediction Results"
+)
 
 
 # ============================================================
@@ -768,56 +930,56 @@ st.subheader("Prediction Results")
 # ============================================================
 
 if predicted_ptb is not None:
-    ptb_display = f"{predicted_ptb:.2f}%"
+
+    ptb_display = (
+        f"{predicted_ptb:.2f}%"
+    )
+
 else:
+
     ptb_display = "—"
 
 
 if ptb_percentile is not None:
-    percentile_display = f"{ptb_percentile} / 100"
+
+    percentile_display = (
+        f"{ptb_percentile} / 100"
+    )
+
 else:
+
     percentile_display = "—"
 
 
 # ============================================================
-# DISPLAY RESULTS
+# RESPONSIVE RESULT DISPLAY
 # ============================================================
 
-col1, col2 = st.columns(2, gap="large")
+results_html = (
+    '<div class="results-grid">'
+
+        '<div class="result-item">'
+            '<div class="result-label">'
+                'Predicted Next-Year Preterm Birth (%)'
+            '</div>'
+            f'<div class="result-value">{ptb_display}</div>'
+        '</div>'
+
+        '<div class="result-item">'
+            '<div class="result-label">'
+                'Predicted Next-Year Preterm Birth Percentile'
+            '</div>'
+            f'<div class="result-value">{percentile_display}</div>'
+        '</div>'
+
+    '</div>'
+)
 
 
-with col1:
-
-    st.markdown(
-        '<div style="font-size:20px; line-height:1.35; margin-bottom:14px;">'
-        'Predicted Next-Year Preterm Birth (%)'
-        '</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        f'<div style="font-size:32px; font-weight:400; margin-bottom:24px;">'
-        f'{ptb_display}'
-        f'</div>',
-        unsafe_allow_html=True
-    )
-
-
-with col2:
-
-    st.markdown(
-        '<div style="font-size:20px; line-height:1.35; margin-bottom:14px;">'
-        'Predicted Next-Year Preterm Birth Percentile'
-        '</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        f'<div style="font-size:32px; font-weight:400; margin-bottom:24px;">'
-        f'{percentile_display}'
-        f'</div>',
-        unsafe_allow_html=True
-    )
+st.markdown(
+    results_html,
+    unsafe_allow_html=True
+)
 
 
 # ============================================================
@@ -832,10 +994,10 @@ if (
 
     st.write(
         f"""
-A percentile of **{ptb_percentile}** indicates that the predicted
-next-year preterm birth percentage is higher than approximately
-**{ptb_percentile}%** of Illinois county-year preterm birth percentages
-in the historical reference distribution.
+A percentile of **{ptb_percentile}** means that the predicted
+next-year preterm birth percentage is equal to or higher than
+approximately **{ptb_percentile}%** of Illinois county-year
+preterm birth percentages in the historical reference distribution.
         """
     )
 
@@ -853,16 +1015,32 @@ with st.expander(
 
     st.write(
         """
-        This prediction model is a birth-weighted Random Forest regression model developed using annual Illinois county-level data. Annual county observations were weighted by the number of births associated with the next-year preterm birth outcome during model fitting.
-        Predictors from year t are used to forecast the preterm birth percentage in year t+1. 
-        The Predicted Preterm Birth Percentile represents the percentile of the predicted next-year preterm birth percentage relative to the historical Illinois county-year preterm birth distribution.
+This prediction model is a birth-weighted Random Forest regression
+model developed using annual Illinois county-level data. Annual
+county observations were weighted by the number of births associated
+with the next-year preterm birth outcome during model fitting.
 
-        Changes in individual input values should not be interpreted as causal changes in preterm birth risk.
+Predictors from year t are used to forecast the county-level preterm
+birth percentage in year t+1.
 
-        This tool is intended for public health planning and research and should not be interpreted as an individual-level clinical risk assessment.
+The Predicted Next-Year Preterm Birth Percentile represents the
+percentile of the predicted next-year preterm birth percentage
+relative to the historical Illinois county-year preterm birth
+distribution.
 
-        The model and tool were developed by Prafulla Caringula of the Woodford County Health Department and Dr. Yu-Sheng Lee of the University of Illinois Springfield.
+Changes in individual input values should not be interpreted as
+causal changes in preterm birth risk. Relationships learned by the
+Random Forest model may be nonlinear or non-monotonic.
 
-        If you have questions about this tool, please contact: Dr. Yu-Sheng Lee | ylee317@uis.edu | 1-217-206-7874.
+This tool is intended for public health planning and research and
+should not be interpreted as an individual-level clinical risk
+assessment.
+
+The model and tool were developed by Prafulla Caringula of the
+Woodford County Health Department and Dr. Yu-Sheng Lee of the
+University of Illinois Springfield.
+
+If you have questions about this tool, please contact:
+Dr. Yu-Sheng Lee | ylee317@uis.edu | 1-217-206-7874.
         """
     )
